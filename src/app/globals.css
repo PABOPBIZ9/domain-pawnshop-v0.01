@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #07070b;
+  --color-panel: #11111a;
+  --color-panel2: #181824;
+  --color-line: #262636;
+  --color-mute: #8a8aa3;
+  --color-acid: #c6ff3d;
+  --color-violet: #8b5cf6;
+  --color-hot: #ff4d8d;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-ink);
+  color: #ececf4;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.bg-grid {
+  background-attachment: fixed;
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(139, 92, 246, 0.18), transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(198, 255, 61, 0.1), transparent 35%);
+}
+
+.card {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+}
+
+.input {
+  background: var(--color-panel2);
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  color: #ececf4;
+}
+.input:focus {
+  border-color: var(--color-violet);
+}
+
+.btn {
+  border-radius: 0.6rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn-acid {
+  background: var(--color-acid);
+  color: #0a0a0a;
+}
+.btn-acid:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+.btn-ghost {
+  background: var(--color-panel2);
+  border: 1px solid var(--color-line);
+}
+.btn-ghost:hover:not(:disabled) {
+  border-color: var(--color-violet);
+}
+.btn-violet {
+  background: var(--color-violet);
+  color: white;
+}

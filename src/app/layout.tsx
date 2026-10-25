@@ -8,9 +8,9 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PAWN.DOMAINS — Domain Pawnshop v0.01",
+  title: "SHOTCLOCK: domains on the clock",
   description:
-    "Instant-liquidity marketplace for domain names. Upload your portfolio, get indicative valuations, bundle names, and list them for quick bids.",
+    "Live, countdown-driven quick-sale marketplace for domain names. Real names, expiring fast, priced to move. Bid before the clock runs out.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -38,7 +38,7 @@ export function Upload() {
     const blob = new Blob([SAMPLE_CSV], { type: "text/csv" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "domain-pawnshop-sample.csv";
+    a.download = "shotclock-sample.csv";
     a.click();
     URL.revokeObjectURL(a.href);
   }

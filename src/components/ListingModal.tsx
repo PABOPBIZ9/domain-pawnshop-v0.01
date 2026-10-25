@@ -7,7 +7,8 @@ import { buyNow, delist, placeOffer } from "@/lib/store";
 import { ago } from "@/lib/now";
 import { Chip, DemoBadge, DomainArt, Modal } from "./ui";
 import { ValuationBreakdown } from "./Valuation";
-import { bestOffer } from "./ListingCard";
+import { Countdown } from "./Countdown";
+import { bestOfferInfo } from "./ListingCard";
 
 type Tab = "buy" | "bid" | "offer";
 
@@ -21,7 +22,7 @@ export function ListingModal({ l, offers, now, onClose }: { l: Listing | null; o
 
 function Body({ l, offers, now, onClose }: { l: Listing; offers: Offer[]; now: number; onClose: () => void }) {
   const [tab, setTab] = useState<Tab>("buy");
-  const best = bestOffer(offers, l.id);
+  const { amount: best, demo: bestDemo } = bestOfferInfo(offers, l.id);
   const [amount, setAmount] = useState<string>(String(Math.max(l.minBid, best ? best + 5 : l.minBid)));
   const [done, setDone] = useState<string>("");
   const v = l.kind === "domain" ? valuate(l.title, l.expiry, now) : null;
@@ -56,10 +57,15 @@ function Body({ l, offers, now, onClose }: { l: Listing; offers: Offer[]; now: n
             Seller <span className="text-white font-mono">{l.seller}</span> · listed {ago(l.createdAt, now)}
           </div>
           {l.expiry && <div className="text-mute">Expiry: <span className="text-white">{l.expiry}</span></div>}
+          {l.status === "active" && l.endsAt && (
+            <div className="rounded-lg bg-panel2 border border-line px-3 py-2">
+              <Countdown endsAt={l.endsAt} label={l.clockLabel} size="lg" />
+            </div>
+          )}
           <div className="grid grid-cols-3 gap-2 pt-1">
             <MiniStat label="Buy now" value={usd(l.price)} />
             <MiniStat label="Min bid" value={usd(l.minBid)} />
-            <MiniStat label="Best offer" value={best ? usd(best) : "—"} />
+            <MiniStat label={bestDemo ? "Best offer (demo)" : "Best offer"} value={best ? usd(best) : "—"} />
           </div>
         </div>
       </div>
@@ -98,7 +104,7 @@ function Body({ l, offers, now, onClose }: { l: Listing; offers: Offer[]; now: n
           </div>
           {tab === "buy" ? (
             <p className="text-sm text-mute">
-              Buy instantly at <span className="text-white font-mono">{usd(l.price)}</span>. v0.01 simulates the purchase — no payment, escrow or transfer.
+              Buy instantly at <span className="text-white font-mono">{usd(l.price)}</span>. v0.01 simulates the purchase: no payment, escrow or transfer. Real deals are closed off-platform for now.
             </p>
           ) : (
             <div className="flex items-center gap-2">

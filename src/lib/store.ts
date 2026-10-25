@@ -6,7 +6,8 @@ import { SAMPLE_CSV, parsePortfolio, type ParsedRow } from "./csv";
 import type { Activity, AppState, Bundle, Listing, Offer, OfferType } from "./types";
 import { nice, valuate } from "./valuation";
 
-const KEY = "domain-pawnshop:v0.01";
+const KEY = "shotclock:v0.01";
+const SALE_WINDOW_MS = 7 * 86_400_000;
 
 const EMPTY: AppState = { version: 1, seeded: false, portfolio: [], listings: [], bundles: [], offers: [], activity: [] };
 
@@ -130,6 +131,8 @@ export function listDomain(domain: string, price: number, minBid: number) {
       createdAt: Date.now(),
       expiry: p?.expiry,
       registrar: p?.registrar,
+      endsAt: Date.now() + SALE_WINDOW_MS,
+      clockLabel: "sale ends in",
     };
     return listingWithSim(s, listing, `You listed ${domain}`);
   });
@@ -160,6 +163,8 @@ export function listBundle(bundle: Bundle, price: number, minBid: number) {
       status: "active",
       createdAt: Date.now(),
       bundleId: bundle.id,
+      endsAt: Date.now() + SALE_WINDOW_MS,
+      clockLabel: "sale ends in",
     };
     const next = listingWithSim(s, listing, `You listed bundle "${bundle.name}" (${bundle.domains.length} names)`);
     return { ...next, bundles: next.bundles.map((b) => (b.id === bundle.id ? { ...b, listed: true } : b)) };

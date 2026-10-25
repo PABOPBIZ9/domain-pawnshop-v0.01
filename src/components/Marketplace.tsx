@@ -11,7 +11,7 @@ import { ListingModal } from "./ListingModal";
 import { ActivityFeed } from "./ActivityFeed";
 import { DemoBadge, Empty, Stat } from "./ui";
 
-type Sort = "new" | "price-asc" | "price-desc" | "expiring";
+type Sort = "clock" | "new" | "price-asc" | "price-desc";
 
 export function Marketplace() {
   const s = useStore();
@@ -25,7 +25,7 @@ export function Marketplace() {
   const [maxLen, setMaxLen] = useState("");
   const [expiring, setExpiring] = useState(false);
   const [showSold, setShowSold] = useState(false);
-  const [sort, setSort] = useState<Sort>("new");
+  const [sort, setSort] = useState<Sort>("clock");
   const [openId, setOpenId] = useState<string | null>(null);
 
   const enriched = useMemo(
@@ -68,7 +68,7 @@ export function Marketplace() {
     .sort((a, b) => {
       if (sort === "price-asc") return a.l.price - b.l.price;
       if (sort === "price-desc") return b.l.price - a.l.price;
-      if (sort === "expiring") return (a.days ?? 1e9) - (b.days ?? 1e9);
+      if (sort === "clock") return (a.l.endsAt ?? 9e15) - (b.l.endsAt ?? 9e15);
       return b.l.createdAt - a.l.createdAt;
     });
 
@@ -85,7 +85,7 @@ export function Marketplace() {
         <div>
           <h1 className="text-3xl font-black tracking-tight">Marketplace</h1>
           <p className="text-mute text-sm mt-1">
-            Domains & bundles up for instant sale. Seeded listings are marked <DemoBadge />
+            Real names on the clock, priced by the heuristic. Simulated bids are marked <DemoBadge />
           </p>
         </div>
       </div>
@@ -93,9 +93,9 @@ export function Marketplace() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <Stat label="Floor price" value={s.hydrated ? usd(floor) : "—"} />
         <Stat label="Listed" value={active.length} sub={`${active.filter((e) => e.l.kind === "bundle").length} bundles`} />
-        <Stat label="Volume" value={usd(volume)} sub={`${sold.length} sales (incl. demo)`} />
-        <Stat label="Open offers" value={pendingOffers.length} />
-        <Stat label="Top offer" value={topOffer ? usd(topOffer) : "—"} />
+        <Stat label="Volume" value={usd(volume)} sub={`${sold.length} simulated sales`} />
+        <Stat label="Open offers" value={pendingOffers.length} sub={`${pendingOffers.filter((o) => o.demo).length} are demo data`} />
+        <Stat label="Top offer" value={topOffer ? usd(topOffer) : "—"} sub={pendingOffers.some((o) => o.demo) ? "incl. demo bids" : undefined} />
       </div>
 
       {collections.length > 0 && (
@@ -145,16 +145,16 @@ export function Marketplace() {
             <input className="input w-24" type="number" placeholder="Max $" value={maxP} onChange={(e) => setMaxP(e.target.value)} />
             <input className="input w-28" type="number" placeholder="Max length" value={maxLen} onChange={(e) => setMaxLen(e.target.value)} />
             <label className="flex items-center gap-1.5 px-2">
-              <input type="checkbox" checked={expiring} onChange={(e) => setExpiring(e.target.checked)} /> Expiring ≤60d
+              <input type="checkbox" checked={expiring} onChange={(e) => setExpiring(e.target.checked)} /> On the clock (≤60d / expired)
             </label>
             <label className="flex items-center gap-1.5 px-2">
               <input type="checkbox" checked={showSold} onChange={(e) => setShowSold(e.target.checked)} /> Show sold
             </label>
             <select className="input max-w-full" value={sort} onChange={(e) => setSort(e.target.value as Sort)} aria-label="Sort">
+              <option value="clock">Shot clock: soonest first</option>
               <option value="new">Newest</option>
               <option value="price-asc">Price: low → high</option>
               <option value="price-desc">Price: high → low</option>
-              <option value="expiring">Expiring soonest</option>
             </select>
           </div>
 

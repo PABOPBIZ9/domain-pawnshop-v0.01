@@ -2,7 +2,7 @@ import { categorize, isPronounceable, priceTier, type PriceTier } from "./catego
 import { splitWords } from "./words";
 
 /**
- * Domain Pawnshop v0.01 indicative valuation engine.
+ * SHOTCLOCK v0.01 indicative valuation engine.
  * Deterministic, transparent heuristic. NOT an appraisal.
  * Same input (domain + expiry + reference date) always yields the same output.
  */

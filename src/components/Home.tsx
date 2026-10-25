@@ -4,17 +4,20 @@ import Link from "next/link";
 import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { useNow } from "@/lib/now";
+import { tierOf } from "@/lib/shotclock";
 import { usd } from "@/lib/valuation";
 import { ListingCard } from "./ListingCard";
 import { ListingModal } from "./ListingModal";
-import { DemoBadge, Stat } from "./ui";
+import { ShotClockBoard } from "./ShotClock";
+import { Stat } from "./ui";
+import { DouTeaser } from "./DouTeaser";
 
 const STEPS = [
-  ["📥", "Upload", "Paste a list or CSV from GoDaddy, Namecheap, Dynadot, Unstoppable & more."],
-  ["🧮", "Value", "Transparent heuristic gives a range, an instant pawn quote and a buyout price."],
-  ["📦", "Bundle", "Auto-group the long tail by category, TLD, length or price tier."],
-  ["🏷️", "List", "Drop names or lots on an OpenSea-style marketplace with buy-now + min bid."],
-  ["⚡", "Get bids", "Collect offers fast, accept or decline, and turn inventory into liquidity."],
+  ["⏱", "On the clock", "Every name carries a live countdown to its expiry, grace or redemption deadline."],
+  ["🧮", "Priced to move", "A transparent heuristic sets a range, a buy-now price and an instant pawn quote."],
+  ["📦", "Quick-sale lots", "Families of names get bundled into lots for bulk buyers and resellers."],
+  ["🔨", "Bid fast", "Buy now, place a bid or make an offer before the clock runs out."],
+  ["💸", "Close", "v0.01 simulates the deal. Escrow and payments are on the roadmap."],
 ];
 
 export function Home() {
@@ -22,41 +25,55 @@ export function Home() {
   const now = useNow();
   const [openId, setOpenId] = useState<string | null>(null);
   const active = s.listings.filter((l) => l.status === "active");
-  const trending = [...active]
-    .sort((a, b) => s.offers.filter((o) => o.listingId === b.id).length - s.offers.filter((o) => o.listingId === a.id).length || b.price - a.price)
-    .slice(0, 8);
+  const expired = active.filter((l) => l.kind === "domain" && (tierOf(l.expiry, now) === "GRACE" || tierOf(l.expiry, now) === "REDEMPTION")).length;
+  const steals = [...active].sort((a, b) => b.price - a.price).slice(0, 8);
   const floor = active.length ? Math.min(...active.map((l) => l.price)) : 0;
-  const volume = s.listings.filter((l) => l.status === "sold").reduce((t, l) => t + l.price, 0);
 
   return (
     <div className="space-y-12">
       <section className="pt-6 pb-2 grid lg:grid-cols-[1.2fr_1fr] gap-8 items-center">
         <div className="space-y-5">
-          <div className="inline-flex items-center gap-2 text-xs font-mono px-2.5 py-1 rounded-full border border-acid/30 bg-acid/10 text-acid">
-            ⚡ v0.01 · instant liquidity for domain bags
+          <div className="inline-flex items-center gap-2 text-xs font-mono px-2.5 py-1 rounded-full border border-hot/40 bg-hot/10 text-hot">
+            <span className="w-2 h-2 rounded-full bg-hot animate-pulse" /> LIVE · names are expiring right now
           </div>
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.02]">
-            The digital <span className="text-acid">pawnshop</span> for domain names.
+            Domains on the <span className="text-acid">shot clock.</span>
           </h1>
           <p className="text-lg text-mute max-w-xl">
-            Upload your portfolio, get indicative valuations in seconds, bundle the long tail, and sell to investors, resellers and end users — before
-            renewals eat you alive.
+            Real names. Real deadlines. Priced to move before they drop. SHOTCLOCK is the live, countdown-driven quick-sale floor for the domain
+            trenches.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/upload" className="btn btn-acid text-base px-6 py-3">
-              Get an instant offer
+            <Link href="/shotclock" className="btn btn-acid text-base px-6 py-3">
+              ⏱ Beat the clock
             </Link>
             <Link href="/market" className="btn btn-ghost text-base px-6 py-3">
-              Browse marketplace
+              Browse the floor
+            </Link>
+            <Link href="/upload" className="btn btn-ghost text-base px-6 py-3">
+              Value my names
             </Link>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-3">
+          <Stat label="Live names & lots" value={s.hydrated ? active.length : "—"} />
           <Stat label="Floor" value={s.hydrated ? usd(floor) : "—"} />
-          <Stat label="Listed" value={s.hydrated ? active.length : "—"} />
-          <Stat label="Volume" value={s.hydrated ? usd(volume) : "—"} sub="incl. demo sales" />
-          <Stat label="Registrars" value="5" sub="GoDaddy · Namecheap · Dynadot · UD · Other" />
+          <Stat label="Already expired" value={s.hydrated ? expired : "—"} sub="in grace / redemption (est.)" />
+          <Stat label="Lots" value={s.hydrated ? active.filter((l) => l.kind === "bundle").length : "—"} sub="quick-sale bundles" />
         </div>
+      </section>
+
+      <section className="space-y-3">
+        <div className="flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl font-black">⏱ Running out first</h2>
+            <p className="text-sm text-mute">The next names to hit zero. Relative countdowns, live.</p>
+          </div>
+          <Link href="/shotclock" className="text-sm text-acid">
+            Full shot clock →
+          </Link>
+        </div>
+        <ShotClockBoard limit={8} compact />
       </section>
 
       <section className="grid sm:grid-cols-5 gap-3">
@@ -75,17 +92,15 @@ export function Home() {
       <section className="space-y-3">
         <div className="flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-black">Trending listings</h2>
-            <p className="text-sm text-mute">
-              Seeded with <DemoBadge /> so you can try bidding and buying.
-            </p>
+            <h2 className="text-2xl font-black">Top of the board</h2>
+            <p className="text-sm text-mute">Highest heuristic list prices on the floor right now.</p>
           </div>
           <Link href="/market" className="text-sm text-acid">
             View all →
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-          {trending.map((l) => (
+          {steals.map((l) => (
             <ListingCard key={l.id} l={l} offers={s.offers} now={now} onOpen={() => setOpenId(l.id)} />
           ))}
         </div>
@@ -93,18 +108,20 @@ export function Home() {
 
       <section className="card p-6 grid md:grid-cols-3 gap-6 text-sm">
         <div>
-          <h3 className="font-bold text-base">Instant pawn</h3>
-          <p className="text-mute mt-1">Borrow against a name at a loan-to-value set by quality and expiry urgency. (Quotes only in v0.01.)</p>
-        </div>
-        <div>
           <h3 className="font-bold text-base">Instant buyout</h3>
-          <p className="text-mute mt-1">A fast, discounted sale price for when you just need the names gone before renewal day.</p>
+          <p className="text-mute mt-1">A fast, discounted price for when the names need to go before renewal day.</p>
         </div>
         <div>
-          <h3 className="font-bold text-base">Bulk liquidation</h3>
-          <p className="text-mute mt-1">Lots and bundles for the hundreds of names that never justify a broker.</p>
+          <h3 className="font-bold text-base">Instant pawn</h3>
+          <p className="text-mute mt-1">Borrow against a name at a loan-to-value set by quality and urgency. Quotes only in v0.01.</p>
+        </div>
+        <div>
+          <h3 className="font-bold text-base">Trench lots</h3>
+          <p className="text-mute mt-1">Bundles of the long tail for resellers who buy in bulk.</p>
         </div>
       </section>
+
+      <DouTeaser />
 
       <ListingModal l={s.listings.find((l) => l.id === openId) ?? null} offers={s.offers} now={now} onClose={() => setOpenId(null)} />
     </div>

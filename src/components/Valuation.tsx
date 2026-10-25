@@ -3,12 +3,14 @@
 import type { Valuation } from "@/lib/valuation";
 import { usd } from "@/lib/valuation";
 import { Chip } from "./ui";
+import { tierForDays, TIER_META } from "@/lib/shotclock";
 
 export function UrgencyChip({ v }: { v: Pick<Valuation, "urgency" | "daysToExpiry"> }) {
-  if (v.urgency === "expired") return <Chip tone="hot">Expired {-(v.daysToExpiry ?? 0)}d ago</Chip>;
-  if (v.urgency === "critical") return <Chip tone="hot">Expires in {v.daysToExpiry}d</Chip>;
-  if (v.urgency === "soon") return <Chip tone="warn">Expires in {v.daysToExpiry}d</Chip>;
-  return null;
+  const d = v.daysToExpiry;
+  const tier = tierForDays(d);
+  if (d === null || tier === "LATER" || tier === "UNKNOWN") return null;
+  const meta = TIER_META[tier];
+  return <Chip tone={meta.tone}>{d < 0 ? `${meta.short} · ${-d}d past` : `${meta.short} · ${d}d left`}</Chip>;
 }
 
 export function ValuationBreakdown({ v, compact = false }: { v: Valuation; compact?: boolean }) {

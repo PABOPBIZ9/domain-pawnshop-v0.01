@@ -1,41 +1,12 @@
-import type { Activity, AppState, Listing, Offer, Registrar } from "./types";
+import type { Activity, AppState, Listing, Offer } from "./types";
 import { nice, valuate } from "./valuation";
+import { nextDeadline } from "./shotclock";
+import { INVENTORY, INVENTORY_BUNDLES } from "@/data/inventory";
 
-const DAY = 86_400_000;
+const DEMO_BUYERS = ["demo_bidbot", "demo_reseller", "demo_endUser", "demo_fundA", "demo_collector", "demo_trencher"];
+export const HOUSE_SELLER = "SHOTCLOCK";
 
-const DEMO_SELLERS = ["demo_whale", "demo_flipper", "demo_namepunk", "demo_tldmaxi", "demo_dropcatcher", "demo_ape"];
-const DEMO_BUYERS = ["demo_bidbot", "demo_reseller", "demo_endUser", "demo_fundA", "demo_collector"];
-
-const DEMO_DOMAINS: [string, Registrar, number | null][] = [
-  ["swapgarden.com", "GoDaddy", 220],
-  ["zentro.io", "Namecheap", 40],
-  ["kush.ai", "Dynadot", 300],
-  ["loanpilot.com", "GoDaddy", 9],
-  ["moonbag.crypto", "Unstoppable", null],
-  ["pixelhive.co", "Namecheap", 120],
-  ["fitwolf.app", "Dynadot", 25],
-  ["cashroot.net", "GoDaddy", 500],
-  ["gg.xyz", "Namecheap", 80],
-  ["datadojo.ai", "Dynadot", -3],
-  ["nftmint.x", "Unstoppable", null],
-  ["homeflip.org", "GoDaddy", 12],
-  ["brivo.com", "Namecheap", 600],
-  ["chefbot.io", "Dynadot", 55],
-  ["tokenranch.com", "GoDaddy", 33],
-  ["best-cheap-pizza-deals.net", "Namecheap", 7],
-  ["8421.com", "Dynadot", 410],
-  ["solsurf.wallet", "Unstoppable", null],
-  ["tripforge.co", "GoDaddy", 190],
-  ["yogaloop.com", "Namecheap", 70],
-  ["gamevault.gg", "Dynadot", 240],
-  ["qrtzl.com", "GoDaddy", 18],
-];
-
-function iso(t: number) {
-  return new Date(t).toISOString().slice(0, 10);
-}
-
-/** Simple deterministic hash for stable pseudo-random demo numbers. */
+/** Simple deterministic hash (FNV-1a) for stable pseudo-random demo numbers. */
 export function hash(s: string): number {
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) {
@@ -45,97 +16,84 @@ export function hash(s: string): number {
   return h >>> 0;
 }
 
+/** Heuristic list price used for every real listing: max(mid, 2 × instant buyout). */
+export function listPrice(domain: string, expiry: string, now: number): number {
+  const v = valuate(domain, expiry, now);
+  return nice(Math.max(v.mid, 2 * v.buyout));
+}
+
+export function bundlePrice(items: { domain: string; expiry: string }[], now: number): number {
+  return nice(items.reduce((t, i) => t + valuate(i.domain, i.expiry, now).buyout, 0) * 1.2);
+}
+
 export function buildSeed(now: number): AppState {
   const listings: Listing[] = [];
   const offers: Offer[] = [];
   const activity: Activity[] = [];
 
-  DEMO_DOMAINS.forEach(([domain, registrar, days], i) => {
-    const expiry = days === null ? "" : iso(now + days * DAY);
-    const v = valuate(domain, expiry, now);
-    const h = hash(domain);
-    const price = nice(v.low + ((v.high - v.low) * (h % 100)) / 160);
-    const createdAt = now - (i + 1) * 47 * 60_000;
-    const id = `demo-l-${i}`;
-    listings.push({
-      id,
+  const pushDemoBid = (l: Listing, i: number) => {
+    const h = hash(l.title);
+    if (h % 4 !== 0) return;
+    const amt = Math.max(1, nice(l.minBid * (1 + (h % 40) / 100)));
+    const createdAt = l.createdAt + ((h % 50) + 5) * 60_000;
+    offers.push({ id: `demo-o-${i}`, listingId: l.id, amount: amt, from: DEMO_BUYERS[h % DEMO_BUYERS.length], type: "bid", status: "pending", mine: false, demo: true, createdAt });
+    activity.push({ id: `demo-a-b${i}`, type: "bid", text: `Bid on ${l.title}`, amount: amt, demo: true, createdAt });
+  };
+
+  INVENTORY.forEach((item, i) => {
+    const price = listPrice(item.domain, item.expiry, now);
+    const dl = nextDeadline(item.expiry, now);
+    const createdAt = now - (i + 1) * 9 * 60_000;
+    const l: Listing = {
+      id: `sc-${item.domain}`,
       kind: "domain",
-      title: domain,
-      domains: [domain],
+      title: item.domain,
+      domains: [item.domain],
       price,
-      minBid: nice(price * 0.5),
-      seller: DEMO_SELLERS[h % DEMO_SELLERS.length],
+      minBid: Math.max(1, nice(price * 0.5)),
+      seller: HOUSE_SELLER,
       mine: false,
-      demo: true,
+      demo: false,
       status: "active",
       createdAt,
-      expiry,
-      registrar,
-    });
-    activity.push({ id: `demo-a-l${i}`, type: "list", text: `${domain} listed`, amount: price, demo: true, createdAt });
-    if (h % 3 === 0) {
-      const amt = nice(price * (0.55 + (h % 30) / 100));
-      offers.push({
-        id: `demo-o-${i}`,
-        listingId: id,
-        amount: amt,
-        from: DEMO_BUYERS[h % DEMO_BUYERS.length],
-        type: "bid",
-        status: "pending",
-        mine: false,
-        demo: true,
-        createdAt: createdAt + 20 * 60_000,
-      });
-      activity.push({ id: `demo-a-b${i}`, type: "bid", text: `Bid on ${domain}`, amount: amt, demo: true, createdAt: createdAt + 20 * 60_000 });
-    }
+      expiry: item.expiry,
+      registrar: item.registrar,
+      endsAt: dl?.target,
+      clockLabel: dl?.label,
+    };
+    listings.push(l);
+    activity.push({ id: `sc-a-${i}`, type: "list", text: `${item.domain} hit the shot clock`, amount: price, demo: false, createdAt });
+    pushDemoBid(l, i);
   });
 
-  const bundles: [string, string[]][] = [
-    ["Crypto Starter Pack", ["degenloot.xyz", "chainpup.io", "mintbro.com", "hodlhut.net"]],
-    ["AI Long-Tail Lot (10)", ["promptdock.ai", "agentcart.io", "botbazaar.net", "llmlabs.xyz", "neuralnest.co", "aidojo.app", "gptshop.org", "modelmart.io", "vectorvan.com", "tokenizer.dev"]],
-    ["Cannabis Brand Bundle", ["dankdesk.com", "budbox.co", "kushkart.net"]],
-  ];
-  bundles.forEach(([name, domains], i) => {
-    const sum = domains.reduce((s, d) => s + valuate(d, "", now).buyout, 0);
-    const price = nice(sum * 1.1);
-    const createdAt = now - (i + 2) * 3 * 3_600_000;
-    listings.push({
-      id: `demo-b-${i}`,
+  INVENTORY_BUNDLES.forEach((b, i) => {
+    const price = bundlePrice(b.items, now);
+    const deadlines = b.items.map((it) => nextDeadline(it.expiry, now)).filter((d): d is NonNullable<typeof d> => !!d);
+    const first = deadlines.sort((a, c) => a.target - c.target)[0];
+    const earliestExpiry = b.items.map((x) => x.expiry).filter(Boolean).sort()[0];
+    const createdAt = now - (i + 1) * 23 * 60_000;
+    const l: Listing = {
+      id: `sc-b-${i}`,
       kind: "bundle",
-      title: name,
-      domains,
+      title: b.name,
+      domains: b.items.map((x) => x.domain),
       price,
-      minBid: nice(price * 0.5),
-      seller: DEMO_SELLERS[i + 1],
+      minBid: Math.max(1, nice(price * 0.5)),
+      seller: HOUSE_SELLER,
       mine: false,
-      demo: true,
+      demo: false,
       status: "active",
       createdAt,
-    });
-    activity.push({ id: `demo-a-bl${i}`, type: "list", text: `Bundle "${name}" listed (${domains.length} names)`, amount: price, demo: true, createdAt });
-  });
-
-  // a few historical demo sales for volume stats
-  [["vaultly.com", 1450], ["ape.gg", 900], ["roofbot.io", 120], ["leafhub.net", 65]].forEach(([d, amt], i) => {
-    const createdAt = now - (i + 1) * 5 * 3_600_000;
-    listings.push({
-      id: `demo-s-${i}`,
-      kind: "domain",
-      title: d as string,
-      domains: [d as string],
-      price: amt as number,
-      minBid: 0,
-      seller: DEMO_SELLERS[i],
-      mine: false,
-      demo: true,
-      status: "sold",
-      createdAt,
-    });
-    activity.push({ id: `demo-a-s${i}`, type: "sale", text: `${d} sold`, amount: amt as number, demo: true, createdAt });
+      expiry: earliestExpiry,
+      endsAt: first?.target,
+      clockLabel: first ? `first name ${first.label}` : undefined,
+    };
+    listings.push(l);
+    activity.push({ id: `sc-ab-${i}`, type: "list", text: `Quick-sale lot "${b.name}" is live`, amount: price, demo: false, createdAt });
+    pushDemoBid(l, 1000 + i);
   });
 
   activity.sort((a, b) => b.createdAt - a.createdAt);
-
   return { version: 1, seeded: true, portfolio: [], listings, bundles: [], offers, activity };
 }
 
@@ -145,7 +103,7 @@ export function simulatedOffersFor(listing: Listing, now: number): Offer[] {
   return Array.from({ length: n }, (_, k) => ({
     id: `sim-${listing.id}-${k}`,
     listingId: listing.id,
-    amount: nice(listing.price * (0.5 + ((h >> (k * 4)) % 40) / 100)),
+    amount: Math.max(1, nice(listing.price * (0.5 + ((h >> (k * 4)) % 40) / 100))),
     from: DEMO_BUYERS[(h + k) % DEMO_BUYERS.length],
     type: (k === 0 ? "offer" : "bid") as Offer["type"],
     status: "pending" as const,

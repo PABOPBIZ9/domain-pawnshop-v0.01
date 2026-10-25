@@ -31,6 +31,10 @@ export interface Listing {
   expiry?: string;
   registrar?: Registrar;
   bundleId?: string;
+  /** Shot clock deadline (ms epoch) — expiry/grace end for real names, sale end for user listings */
+  endsAt?: number;
+  /** What happens when the clock hits zero, e.g. "expires in", "sale ends in" */
+  clockLabel?: string;
 }
 
 export interface Bundle {

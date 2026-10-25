@@ -8,13 +8,13 @@ import { site } from "@/config/site";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-// Canonical/metadataBase intentionally NOT set yet: shotclock.buzz (planned primary) is pending registration.
+// Canonical/metadataBase intentionally NOT set yet: a planned primary domain is not chosen yet.
 export const metadata: Metadata = {
   title: "SHOTCLOCK: domains on the clock",
   description:
     "Live, countdown-driven quick-sale marketplace for domain names. Real names, expiring fast, priced to move. Bid before the clock runs out.",
   applicationName: site.name,
-  other: { "shotclock:domain": site.domains.current, "shotclock:planned-domain": site.domains.plannedPrimary },
+  other: { "shotclock:domain": site.domains.current },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -102,4 +102,4 @@ Prototype for demonstration. Nothing here is an appraisal, financial advice, or 
 - **Early-bird:** free OG Early-Bird badge + 250 CP for players who join before Nov 1, 2026, 11:59 PM ET (`src/config/site.ts`).
 - **/giveaway:** launch giveaway; page and official rules are generated from `src/config/giveaway.ts`. **All prizes are placeholders**, and the DEMO warning stays until the rules are legally reviewed.
 - **$36 OG Offer card:** a draft. Payments are hard-off.
-- **Domains:** `site.domains.current = shotclock.store`, `plannedPrimary = shotclock.buzz` (tagline "Find out what all the buzz is about"). It is not canonical yet, pending registration.
+- **Domains:** `site.domains.current = shotclock.store`, `plannedPrimary` is empty: shotclock.buzz is taken by another owner, and shotclock.zone is a candidate.

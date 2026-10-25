@@ -16,7 +16,7 @@ export const site = {
      * Planned primary vanity domain. NOT canonical yet: availability/registration is being checked.
      * TODO: once registered, set metadataBase + canonical in app/layout.tsx and redirect shotclock.store → here.
      */
-    plannedPrimary: "shotclock.buzz",
+    plannedPrimary: "", // shotclock.buzz is registered by someone else (Dynadot, exp. Jul 2027); shotclock.zone was unregistered as of Oct 24, 2026
     plannedTagline: "Find out what all the buzz is about.",
   },
 };

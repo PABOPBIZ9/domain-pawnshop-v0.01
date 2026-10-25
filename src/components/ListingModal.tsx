@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Listing, Offer } from "@/lib/types";
 import { usd, valuate } from "@/lib/valuation";
 import { buyNow, delist, placeOffer } from "@/lib/store";
+import { rewardOffer } from "@/lib/player";
 import { ago } from "@/lib/now";
 import { Chip, DemoBadge, DomainArt, Modal } from "./ui";
 import { ValuationBreakdown } from "./Valuation";
@@ -34,9 +35,11 @@ function Body({ l, offers, now, onClose }: { l: Listing; offers: Offer[]; now: n
   function submit() {
     if (tab === "buy") {
       buyNow(l.id);
+      rewardOffer();
       setDone(`Purchased ${l.title} for ${usd(l.price)} — simulated, no payment was taken.`);
     } else {
       placeOffer(l.id, amt, tab);
+      rewardOffer();
       setDone(`Your ${tab} of ${usd(amt)} was recorded (stored locally).`);
     }
   }

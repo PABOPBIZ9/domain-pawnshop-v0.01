@@ -90,3 +90,8 @@ ONESHOT.md            single prompt to regenerate this app with any AI coding to
 ## Disclaimer
 
 Prototype for demonstration. Nothing here is an appraisal, financial advice, or a binding offer to buy, sell or lend.
+
+## DOU STARTER KIT ports (v0.01)
+- **Social footer:** "Follow SHOTCLOCK", 11-language switcher, Back to top, and SVG icons. Configure them in `src/config/social.ts`. TODO: the `@shotclock` handle is a placeholder; no links render until real handles are filled in and `handleConfirmed` is set to true.
+- **Promo bar:** always shows the next real deadline on the board, with a relative countdown.
+- **Join + CLOCK POINTS:** #number, fun name, avatar shuffle, daily check-in, and points for simulated offers, bids and buys (capped at 10 a day). The points have no cash value and are stored in localStorage (`shotclock:player`).

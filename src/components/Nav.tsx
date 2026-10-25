@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { PlayerChip } from "./Player";
+import { PromoBar } from "./PromoBar";
 
 const LINKS = [
   { href: "/shotclock", label: "⏱ Shot Clock" },
@@ -15,6 +17,8 @@ const LINKS = [
 export function Nav() {
   const path = usePathname();
   return (
+    <>
+    <PromoBar />
     <header className="sticky top-0 z-30 border-b border-line bg-ink/80 backdrop-blur">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-6">
         <Link href="/" className="flex items-center gap-2 font-black tracking-tight text-lg">
@@ -35,13 +39,17 @@ export function Nav() {
             </Link>
           ))}
         </nav>
-        <Link href="/shotclock" className="ml-auto btn btn-acid text-sm hidden md:inline-block">
-          Beat the clock
-        </Link>
+        <div className="ml-auto flex items-center gap-2">
+          <PlayerChip />
+          <Link href="/shotclock" className="btn btn-acid text-sm hidden md:inline-block">
+            Beat the clock
+          </Link>
+        </div>
       </div>
       <div className="border-t border-line bg-hot/10 text-[11px] text-center px-4 py-1.5 text-white/80">
         <b className="text-hot">v0.01:</b> prices are indicative heuristics, not appraisals. Offers, bids and purchases are simulated, and no money moves.
       </div>
     </header>
+    </>
   );
 }

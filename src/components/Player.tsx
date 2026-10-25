@@ -12,7 +12,7 @@ import { Avatar } from "./Avatar";
 function Row({ reward, action, verify, done, button }: { reward: string; action: string; verify: string; done?: boolean; button?: React.ReactNode }) {
   return (
     <div className={`flex items-center gap-3 rounded-xl border p-3 ${done ? "border-acid/40 bg-acid/5" : "border-line bg-panel2"}`}>
-      <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-black ${done ? "bg-acid text-black" : "bg-violet/20 text-violet"}`}>{reward}</span>
+      <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-black ${done ? "lx-sig" : "bg-violet/20 text-violet"}`}>{reward}</span>
       <div className="min-w-0 flex-1"><div className="font-bold leading-tight">{action}{done ? " ✓" : ""}</div><div className="text-xs text-mute">{verify}</div></div>
       {button}
     </div>
@@ -62,7 +62,7 @@ export function PlayerChip() {
                     <button className="btn btn-ghost text-sm mt-1" onClick={shuffle}>🎲 Shuffle avatar</button>
                   </div>
                 </div>
-                {shown.length ? <div className="mt-3 flex flex-wrap gap-1.5">{shown.map((b) => <span key={b} className="pill bg-gold/20 text-gold">🏅 {b}</span>)}</div> : null}
+                {shown.length ? <div className="mt-3 flex flex-wrap gap-1.5">{shown.map((b) => <span key={b} className="pill lx-champagne">🏅 {b}</span>)}</div> : null}
                 <div className="mt-4 space-y-2">
                   <Row reward={`+${points.dailyVisit}`} action="Daily check-in" verify="Once a day." done={visitDone}
                     button={!visitDone ? <button className="btn btn-acid text-xs" onClick={claimVisit}>Claim</button> : undefined} />

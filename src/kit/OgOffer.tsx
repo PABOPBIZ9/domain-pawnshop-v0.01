@@ -12,10 +12,10 @@ export default function OgOffer({ cfg }: { cfg: OgOfferConfig }) {
   const end = Date.parse(cfg.endsAt);
   const over = !!now && now >= end;
   return (
-    <section className="card relative overflow-hidden p-6" style={{ background: "linear-gradient(135deg, color-mix(in srgb, var(--color-gold) 18%, var(--color-panel)), var(--color-panel))" }}>
+    <section className="card lx-og relative overflow-hidden p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="max-w-xl">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-black uppercase tracking-widest text-gold">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-black uppercase tracking-widest lx-og-text">
             {cfg.kicker}
             {cfg.draft ? <span className="pill bg-hot/20 text-hot">Preview · not on sale yet</span> : null}
           </div>

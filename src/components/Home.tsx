@@ -35,8 +35,8 @@ export function Home() {
     <div className="space-y-12">
       <section className="pt-6 pb-2 grid lg:grid-cols-[1.2fr_1fr] gap-8 items-center">
         <div className="space-y-5">
-          <div className="inline-flex items-center gap-2 text-xs font-mono px-2.5 py-1 rounded-full border border-hot/40 bg-hot/10 text-hot">
-            <span className="w-2 h-2 rounded-full bg-hot animate-pulse" /> LIVE · names are expiring right now
+          <div className="inline-flex items-center gap-2 text-xs font-mono px-2.5 py-1 rounded-full lx-ruby">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" /> LIVE · names are expiring right now
           </div>
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.02]">
             Domains on the <span className="text-acid">shot clock.</span>

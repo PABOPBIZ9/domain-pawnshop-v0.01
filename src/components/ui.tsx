@@ -15,7 +15,7 @@ export function Chip({ children, tone = "default" }: { children: ReactNode; tone
   const tones = {
     default: "bg-panel2 border-line text-mute",
     acid: "bg-acid/10 border-acid/30 text-acid",
-    hot: "bg-hot/10 border-hot/30 text-hot",
+    hot: "lx-ruby border-transparent font-bold",
     warn: "bg-amber-400/10 border-amber-400/30 text-amber-300",
     violet: "bg-violet/15 border-violet/30 text-violet-300",
   };

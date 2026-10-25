@@ -36,7 +36,7 @@ function Art({ p, big }: { p: Prize; big?: boolean }) {
   return (
     <div className={`relative flex items-center justify-center rounded-xl bg-bg ${big ? "h-32 text-5xl" : "h-20 text-3xl"}`}>
       <span aria-hidden>{p.art ?? "🎁"}</span>
-      <span className="pill absolute bottom-2 right-2 bg-gold text-black">{usd(p.arv)}{p.qty > 1 ? ` ×${p.qty}` : ""}</span>
+      <span className="pill lx-champagne absolute bottom-2 right-2">{usd(p.arv)}{p.qty > 1 ? ` ×${p.qty}` : ""}</span>
     </div>
   );
 }
@@ -116,8 +116,8 @@ export default function Giveaway({ cfg, member, onJoin, onEnter, verified = {}, 
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <div>
             <div className="flex flex-wrap gap-2 text-xs font-black uppercase">
-              {E.worldwide ? <span className="pill bg-accent text-black">🌍 Worldwide</span> : null}
-              <span className="pill bg-hot text-white">🎁 Enter free · {open ? "Live now" : now && now < start ? "Opens soon" : "Entries closed"}</span>
+              {E.worldwide ? <span className="pill lx-sig">🌍 Worldwide</span> : null}
+              <span className="pill lx-ruby">🎁 Enter free · {open ? "Live now" : now && now < start ? "Opens soon" : "Entries closed"}</span>
             </div>
             <h1 className="mt-4 text-4xl font-black leading-[1.05] sm:text-5xl">
               {topSingle > 0 ? <>Win up to <span className="text-gold">{usd(topSingle)}</span></> : <>Prizes <span className="text-gold">TBA</span></>}
@@ -136,7 +136,7 @@ export default function Giveaway({ cfg, member, onJoin, onEnter, verified = {}, 
               <div className="text-xs font-black uppercase tracking-widest text-mute">{now && now < start ? `Opens ${etDate(start)}` : `Entries close ${etDate(end)}`} · ends in</div>
               <div className="mt-2 grid grid-cols-4 gap-2 text-center">
                 {([["d", "days"], ["h", "hrs"], ["m", "min"], ["s", "sec"]] as const).map(([k, l]) => (
-                  <div key={k} className="rounded-xl bg-hot py-2 text-white"><div className="font-mono text-3xl font-black tabular-nums">{String(cd[k]).padStart(2, "0")}</div><div className="text-[10px] font-bold uppercase">{l}</div></div>
+                  <div key={k} className="lx-chip rounded-xl py-2"><div className="font-mono text-3xl font-black tabular-nums">{String(cd[k]).padStart(2, "0")}</div><div className="text-[10px] font-bold uppercase">{l}</div></div>
                 ))}
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function Giveaway({ cfg, member, onJoin, onEnter, verified = {}, 
             return (
               <div key={w.id} className={`rounded-2xl border p-4 ${done ? "border-accent/50 bg-accent/5" : "border-line bg-panel"}`}>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="pill bg-gold text-black">{w.value}</span>
+                  <span className="pill lx-champagne">{w.value}</span>
                   <span className={`pill ${w.verification === "verified" ? "bg-accent/20 text-accent" : w.verification === "auto" ? "bg-primary/20 text-primary" : "bg-panel2 text-mute"}`}>{VER[w.verification]}</span>
                 </div>
                 <h3 className="mt-2 font-black">{w.title}</h3>

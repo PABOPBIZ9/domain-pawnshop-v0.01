@@ -1,0 +1,106 @@
+/*
+ * Luxe championship theme (shared kit file, copy verbatim).
+ * Needs the --lx-* variables from kit/theme.ts themeVars() on <html>.
+ * No pure black anywhere: the base is a deep gradient with a twinkling star field.
+ */
+
+html { color-scheme: dark; background-color: var(--lx-base-2); }
+body {
+  color: var(--lx-text);
+  background:
+    radial-gradient(1200px 600px at 15% -10%, color-mix(in srgb, var(--lx-sig) 10%, transparent), transparent 60%),
+    radial-gradient(900px 500px at 95% 0%, color-mix(in srgb, var(--lx-platinum) 10%, transparent), transparent 60%),
+    linear-gradient(180deg, var(--lx-base-0) 0%, var(--lx-base-1) 45%, var(--lx-base-2) 100%);
+  background-attachment: fixed;
+  background-color: var(--lx-base-2);
+}
+
+/* ---------- starry sky ---------- */
+.lx-stars { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; opacity: var(--lx-stars); }
+.lx-stars::before, .lx-stars::after { content: ""; position: absolute; inset: -50%; background-repeat: repeat; }
+.lx-stars::before {
+  background-image:
+    radial-gradient(1px 1px at 23px 41px, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 117px 13px, #dfe6ff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 201px 97px, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 61px 173px, #f4dca8 50%, transparent 51%),
+    radial-gradient(1px 1px at 159px 211px, #fff 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 241px 151px, #cfd8ff 50%, transparent 51%);
+  background-size: 260px 240px;
+  animation: lx-twinkle 5s ease-in-out infinite alternate;
+}
+.lx-stars::after {
+  background-image:
+    radial-gradient(1px 1px at 37px 87px, #fff 50%, transparent 51%),
+    radial-gradient(1.6px 1.6px at 143px 59px, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 271px 191px, #e7ebf5 50%, transparent 51%),
+    radial-gradient(1px 1px at 311px 23px, #f0b2a1 50%, transparent 51%),
+    radial-gradient(1.3px 1.3px at 89px 281px, #fff 50%, transparent 51%);
+  background-size: 340px 320px;
+  opacity: .7;
+  animation: lx-twinkle 7s ease-in-out 2.5s infinite alternate-reverse;
+}
+@keyframes lx-twinkle { 0% { opacity: .35; } 50% { opacity: .9; } 100% { opacity: .55; } }
+
+/* ---------- metals ---------- */
+:root {
+  --lx-chrome-edge: linear-gradient(135deg,
+    rgb(255 255 255 / .55), rgb(201 208 226 / .16) 28%, rgb(255 255 255 / .42) 52%, rgb(140 150 185 / .14) 76%, rgb(231 235 245 / .5));
+  --lx-chrome-fill: linear-gradient(180deg, #ffffff 0%, var(--lx-chrome) 38%, var(--lx-platinum) 62%, #eef1f8 100%);
+  --lx-champagne-fill: linear-gradient(120deg, var(--lx-champagne) 0%, #fff1d2 35%, var(--lx-rose) 70%, var(--lx-champagne) 100%);
+  --lx-ruby-fill: linear-gradient(180deg, var(--lx-ruby-hi) 0%, var(--lx-ruby) 100%);
+}
+
+@layer components {
+  /* Glossy panel with a metallic gradient border */
+  .card, .lx-glass {
+    border: 1px solid transparent;
+    border-radius: 1rem;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, #fff 8%, var(--lx-panel)) 0%, var(--lx-panel) 42%, color-mix(in srgb, #000 6%, var(--lx-panel)) 100%) padding-box,
+      var(--lx-chrome-edge) border-box;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .14), 0 18px 40px -22px rgb(3 6 25 / .75);
+  }
+  /* Chrome / platinum chip (countdowns) */
+  .lx-chip {
+    background: var(--lx-chrome-fill);
+    color: var(--lx-ink);
+    border: 1px solid rgb(255 255 255 / .7);
+    box-shadow: inset 0 1px 0 #fff, inset 0 -2px 4px rgb(13 22 64 / .18), 0 2px 8px -2px rgb(3 6 25 / .6);
+    text-shadow: 0 1px 0 rgb(255 255 255 / .6);
+  }
+  /* Dark glass chip with a chrome edge (keeps colored countdown text readable) */
+  .lx-chip-glass {
+    border: 1px solid transparent;
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 10%, var(--lx-panel2)), color-mix(in srgb, #000 10%, var(--lx-panel2))) padding-box, var(--lx-chrome-edge) border-box;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .16);
+  }
+  /* Ruby urgency tag / fill */
+  .lx-ruby { background: var(--lx-ruby-fill); color: #fff; box-shadow: inset 0 1px 0 rgb(255 255 255 / .28); }
+  .lx-ruby-text { color: var(--lx-ruby-text); }
+  /* Champagne / rose-gold OG + early-bird */
+  .lx-champagne { background: var(--lx-champagne-fill); color: var(--lx-champagne-ink); box-shadow: inset 0 1px 0 rgb(255 255 255 / .55); }
+  .lx-og {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--lx-champagne) 16%, var(--lx-panel)), var(--lx-panel) 60%, color-mix(in srgb, var(--lx-rose) 12%, var(--lx-panel))) padding-box,
+      var(--lx-champagne-fill) border-box;
+  }
+  .lx-og-text { color: var(--lx-champagne); }
+  /* Signature-color glossy CTA */
+  .lx-sig {
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 28%, var(--lx-sig)), var(--lx-sig) 55%, color-mix(in srgb, #000 8%, var(--lx-sig)));
+    color: var(--lx-sig-ink);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .5), 0 6px 18px -8px rgb(var(--lx-sig-rgb) / .7);
+  }
+  /* Glossy ticker strip */
+  .kit-ticker {
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 10%, var(--lx-panel2)), var(--lx-panel) 60%);
+    border-bottom: 1px solid rgb(255 255 255 / .14);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lx-stars::before, .lx-stars::after { animation: none; }
+}

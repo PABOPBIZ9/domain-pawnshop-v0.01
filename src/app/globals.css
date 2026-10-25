@@ -1,93 +1,68 @@
 @import "tailwindcss";
 
+@import "../kit/luxe.css";
+
+/*
+ * SHOTCLOCK theme: signature Volt Lime #C6FF3D on the sapphire-night luxe base (no pure black).
+ * All values come from src/config/theme.ts → kit/theme.ts themeVars() on <html>.
+ */
 @theme inline {
-  --color-ink: #07070b;
-  --color-panel: #11111a;
-  --color-panel2: #181824;
-  --color-line: #262636;
-  --color-mute: #8a8aa3;
-  --color-acid: #c6ff3d;
-  --color-violet: #8b5cf6;
-  --color-hot: #ff4d8d;
-  /* aliases used by the shared src/kit templates */
-  --color-bg: #07070b;
-  --color-primary: #8b5cf6;
-  --color-accent: #c6ff3d;
-  --color-gold: #ffd23f;
+  --color-ink: var(--lx-base-2); /* page/background tone (legacy name in this repo) */
+  --color-bg: var(--lx-base-2);
+  --color-panel: var(--lx-panel);
+  --color-panel2: var(--lx-panel2);
+  --color-line: color-mix(in srgb, var(--lx-platinum) 22%, transparent);
+  --color-mute: var(--lx-mute);
+  --color-acid: var(--lx-sig);
+  --color-violet: #9db4ff; /* sapphire highlight (secondary, never a second brand color) */
+  --color-hot: var(--lx-ruby-text);
+  --color-gold: var(--lx-champagne);
+  --color-primary: var(--lx-sig);
+  --color-accent: var(--lx-sig);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-html {
-  color-scheme: dark;
-}
+body { font-family: var(--font-geist-sans), system-ui, sans-serif; }
+.bg-grid { background-attachment: fixed; }
 
-body {
-  background: var(--color-ink);
-  color: #ececf4;
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-}
-
-.bg-grid {
-  background-attachment: fixed;
-  background-image:
-    radial-gradient(circle at 20% 0%, rgba(139, 92, 246, 0.18), transparent 40%),
-    radial-gradient(circle at 90% 10%, rgba(198, 255, 61, 0.1), transparent 35%);
-}
-
-.card {
-  background: var(--color-panel);
-  border: 1px solid var(--color-line);
-  border-radius: 1rem;
-}
-
-.input {
-  background: var(--color-panel2);
-  border: 1px solid var(--color-line);
-  border-radius: 0.6rem;
-  padding: 0.5rem 0.75rem;
-  outline: none;
-  color: #ececf4;
-}
-.input:focus {
-  border-color: var(--color-violet);
-}
-
-.btn {
-  border-radius: 0.6rem;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  transition: all 0.15s;
-  cursor: pointer;
-}
-.btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-.btn-acid {
-  background: var(--color-acid);
-  color: #0a0a0a;
-}
-.btn-acid:hover:not(:disabled) {
-  filter: brightness(1.1);
-}
-.btn-ghost {
-  background: var(--color-panel2);
-  border: 1px solid var(--color-line);
-}
-.btn-ghost:hover:not(:disabled) {
-  border-color: var(--color-violet);
-}
-.btn-violet {
-  background: var(--color-violet);
-  color: white;
+@layer components {
+  .input {
+    background: color-mix(in srgb, #000 14%, var(--color-panel2));
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+    color: var(--lx-text);
+  }
+  .input:focus { border-color: var(--lx-sig); box-shadow: 0 0 0 3px rgb(var(--lx-sig-rgb) / .22); }
+  .btn { border-radius: 0.6rem; padding: 0.5rem 1rem; font-weight: 600; transition: all 0.15s; cursor: pointer; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-acid, .btn-primary, .btn-accent {
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 30%, var(--lx-sig)), var(--lx-sig) 55%, color-mix(in srgb, #000 8%, var(--lx-sig)));
+    color: var(--lx-sig-ink);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .55), 0 6px 18px -8px rgb(var(--lx-sig-rgb) / .75);
+  }
+  .btn-acid:hover:not(:disabled), .btn-primary:hover:not(:disabled), .btn-accent:hover:not(:disabled) { filter: brightness(1.06); }
+  .btn-ghost {
+    border: 1px solid transparent;
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 9%, var(--lx-panel2)), var(--lx-panel2)) padding-box, var(--lx-chrome-edge) border-box;
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: linear-gradient(180deg, color-mix(in srgb, #fff 14%, var(--lx-panel2)), var(--lx-panel2)) padding-box, linear-gradient(135deg, var(--lx-sig), var(--lx-chrome)) border-box;
+  }
+  /* Secondary action = polished platinum */
+  .btn-violet {
+    background: var(--lx-chrome-fill);
+    color: var(--lx-ink);
+    border: 1px solid rgb(255 255 255 / .7);
+    box-shadow: inset 0 1px 0 #fff, 0 4px 14px -6px rgb(3 6 25 / .7);
+  }
+  .btn-violet:hover:not(:disabled) { filter: brightness(1.04); }
 }
 
 /* ---------- shared kit classes (src/kit) ---------- */
 @layer components {
-  .btn-primary { background: var(--color-primary); color: white; }
-  .btn-primary:hover:not(:disabled) { filter: brightness(1.1); }
-  .btn-accent { background: var(--color-accent); color: #0a0a0a; }
   .pill { border-radius: 999px; padding: .1rem .55rem; font-size: .75rem; font-weight: 800; display: inline-block; }
 }
 

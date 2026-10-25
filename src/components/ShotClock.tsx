@@ -32,11 +32,11 @@ export function ShotClockBoard({ limit, compact = false }: { limit?: number; com
     <div className="space-y-3">
       {!compact && (
         <div className="flex flex-wrap gap-2">
-          <button onClick={() => setTier("all")} className={`px-3 py-1 rounded-lg text-sm ${tier === "all" ? "bg-violet text-white" : "bg-panel2 text-mute"}`}>
+          <button onClick={() => setTier("all")} className={`px-3 py-1 rounded-lg text-sm ${tier === "all" ? "lx-chip font-bold" : "bg-panel2 text-mute"}`}>
             All ({live.length})
           </button>
           {counts.map(([t, n]) => (
-            <button key={t} onClick={() => setTier(t)} className={`px-3 py-1 rounded-lg text-sm ${tier === t ? "bg-violet text-white" : "bg-panel2 text-mute"}`}>
+            <button key={t} onClick={() => setTier(t)} className={`px-3 py-1 rounded-lg text-sm ${tier === t ? "lx-chip font-bold" : "bg-panel2 text-mute"}`}>
               {TIER_META[t].short} ({n})
             </button>
           ))}

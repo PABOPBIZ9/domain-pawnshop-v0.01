@@ -25,7 +25,7 @@ export function Nav() {
     <header className="sticky top-0 z-30 border-b border-line bg-ink/80 backdrop-blur">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-6">
         <Link href="/" className="flex items-center gap-2 font-black tracking-tight text-lg">
-          <span className="grid place-items-center w-8 h-8 rounded-lg bg-acid text-black text-base">⏱</span>
+          <span className="grid place-items-center w-8 h-8 rounded-lg lx-sig text-base">⏱</span>
           <span>
             SHOT<span className="text-acid">CLOCK</span>
           </span>

@@ -82,7 +82,7 @@ export function Bundles() {
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="font-bold mr-2">Suggested bundles</h2>
           {(["category", "tier", "tld", "length"] as const).map((m) => (
-            <button key={m} onClick={() => setMode(m)} className={`px-3 py-1 rounded-lg text-sm ${mode === m ? "bg-violet text-white" : "bg-panel2 text-mute"}`}>
+            <button key={m} onClick={() => setMode(m)} className={`px-3 py-1 rounded-lg text-sm ${mode === m ? "lx-chip font-bold" : "bg-panel2 text-mute"}`}>
               by {m === "tier" ? "price tier" : m}
             </button>
           ))}
@@ -123,7 +123,7 @@ export function Bundles() {
               <button
                 key={p.id}
                 onClick={() => setPicked(on ? picked.filter((d) => d !== p.domain) : [...picked, p.domain])}
-                className={`text-xs px-2.5 py-1 rounded-full border ${on ? "bg-acid text-black border-acid" : "border-line text-mute"} ${listedDomains.has(p.domain) ? "opacity-50" : ""}`}
+                className={`text-xs px-2.5 py-1 rounded-full border ${on ? "lx-sig border-transparent" : "border-line text-mute"} ${listedDomains.has(p.domain) ? "opacity-50" : ""}`}
               >
                 {p.domain}
               </button>

@@ -103,3 +103,6 @@ Prototype for demonstration. Nothing here is an appraisal, financial advice, or 
 - **/giveaway:** launch giveaway; page and official rules are generated from `src/config/giveaway.ts`. **All prizes are placeholders**, and the DEMO warning stays until the rules are legally reviewed.
 - **$36 OG Offer card:** a draft. Payments are hard-off.
 - **Domains:** `site.domains.current = shotclock.store`, `plannedPrimary` is empty: shotclock.buzz is taken by another owner, and shotclock.zone is a candidate.
+
+## Theme (luxe, no pure black)
+SHOTCLOCK owns **Volt Lime `#C6FF3D`** on the **sapphire-night** base: a sapphire to midnight-indigo gradient with twinkling stars (static under reduced motion). Cards, ticker and countdown chips are glossy chrome/platinum with metallic gradient borders. OG and early-bird use champagne/rose-gold; urgency tags use ruby. Config: `src/config/theme.ts`; shared files: `src/kit/theme.ts` + `src/kit/luxe.css`. Contrast is WCAG AA.

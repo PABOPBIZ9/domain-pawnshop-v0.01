@@ -15,7 +15,7 @@ export function Countdown({ endsAt, label, size = "sm" }: { endsAt?: number; lab
     <span className={`inline-flex items-center gap-1.5 font-mono ${size === "lg" ? "text-lg" : "text-[11px]"} ${left <= 0 ? "text-mute" : hot ? "text-hot" : "text-acid"}`}>
       <span className={left > 0 && hot ? "animate-pulse" : ""}>⏱</span>
       {label && <span className="text-mute font-sans">{left <= 0 ? "clock ran out" : label}</span>}
-      {left > 0 && <span className="tabular-nums">{formatCountdown(left)}</span>}
+      {left > 0 && <span className={`lx-chip-glass rounded-md tabular-nums font-bold ${size === "lg" ? "px-2.5 py-1" : "px-1.5 py-0.5"}`}>{formatCountdown(left)}</span>}
     </span>
   );
 }

@@ -100,7 +100,7 @@ function Body({ l, offers, now, onClose }: { l: Listing; offers: Offer[]; now: n
         <div className="rounded-xl border border-line p-3 space-y-3">
           <div className="flex gap-1 bg-panel2 rounded-lg p-1 w-fit">
             {(["buy", "bid", "offer"] as Tab[]).map((t) => (
-              <button key={t} onClick={() => setTab(t)} className={`px-3 py-1 rounded-md text-sm ${tab === t ? "bg-violet text-white" : "text-mute"}`}>
+              <button key={t} onClick={() => setTab(t)} className={`px-3 py-1 rounded-md text-sm ${tab === t ? "lx-chip font-bold" : "text-mute"}`}>
                 {t === "buy" ? "Buy now" : t === "bid" ? "Place bid" : "Make offer"}
               </button>
             ))}

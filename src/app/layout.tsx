@@ -33,6 +33,7 @@ export const metadata: Metadata = {
     "shotclock:domain": site.domains.current,
     "msapplication-TileColor": BRAND_COLORS.base,
     "msapplication-TileImage": "/mstile-150x150.png",
+    "msapplication-config": "/browserconfig.xml",
   },
 };
 

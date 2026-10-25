@@ -6,6 +6,15 @@ import type { FooterConfig, OgOfferConfig, TickerConfig } from "@/kit/types";
 import { points, social } from "./social";
 import { giveaway } from "./giveaway";
 
+/**
+ * Canonical origin used for metadataBase, canonical links, sitemap and robots.
+ * ONE value: switch to "https://shotclock.store" once Namecheap DNS points at Vercel (or set NEXT_PUBLIC_SITE_URL).
+ */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://domain-pawnshop-v0-01.vercel.app").replace(/\/$/, "");
+
+/** Brand colors for icons, manifest and theme-color (no pure black). */
+export const BRAND_COLORS = { signature: "#c6ff3d", base: "#0b1038", sapphire: "#10225e" };
+
 export const site = {
   name: "SHOTCLOCK",
   tagline: "Domains on the clock. Real names, expiring fast, priced to move.",

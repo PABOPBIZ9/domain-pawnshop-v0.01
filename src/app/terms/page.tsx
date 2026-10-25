@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { points } from "@/config/social";
 
-export const metadata: Metadata = { title: "Terms · SHOTCLOCK" };
+export const metadata: Metadata = { title: "Terms · SHOTCLOCK", alternates: { canonical: "/terms" } };
 
 export default function Page() {
   return (

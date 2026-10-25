@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Privacy · SHOTCLOCK" };
+export const metadata: Metadata = { title: "Privacy · SHOTCLOCK", alternates: { canonical: "/privacy" } };
 
 export default function Page() {
   return (

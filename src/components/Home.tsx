@@ -11,6 +11,8 @@ import { ListingModal } from "./ListingModal";
 import { ShotClockBoard } from "./ShotClock";
 import { Stat } from "./ui";
 import { DouTeaser } from "./DouTeaser";
+import OgOffer from "@/kit/OgOffer";
+import { ogOffer } from "@/config/site";
 
 const STEPS = [
   ["⏱", "On the clock", "Every name carries a live countdown to its expiry, grace or redemption deadline."],
@@ -120,6 +122,8 @@ export function Home() {
           <p className="text-mute mt-1">Bundles of the long tail for resellers who buy in bulk.</p>
         </div>
       </section>
+
+      <OgOffer cfg={ogOffer} />
 
       <DouTeaser />
 

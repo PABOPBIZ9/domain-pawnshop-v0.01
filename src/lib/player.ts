@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import { points } from "@/config/social";
+import { earlyBird } from "@/config/site";
 import { newSeed } from "./identity";
 
 export type Player = {
@@ -12,6 +13,8 @@ export type Player = {
   dayKey: string;
   offersToday: number;
   visitClaimed: boolean;
+  /** Free badges, e.g. "OG Early-Bird", "SHOTCLOCK Launch '26". */
+  badges?: string[];
 };
 
 type PS = { player: Player | null; lang: string };
@@ -46,7 +49,11 @@ const roll = (p: Player): Player => (p.dayKey === dk() ? p : { ...p, dayKey: dk(
 export function join(name: string, seed: number) {
   const n = Number(localStorage.getItem(COUNTER) || "0") + 1;
   localStorage.setItem(COUNTER, String(n));
-  save((s) => ({ ...s, player: { number: n, name, seed, balance: points.join, dayKey: dk(), offersToday: 0, visitClaimed: false } }));
+  const og = earlyBird.enabled && Date.now() <= Date.parse(earlyBird.endsAt);
+  save((s) => ({ ...s, player: {
+    number: n, name, seed, balance: points.join + (og ? earlyBird.bonusPoints : 0), dayKey: dk(), offersToday: 0, visitClaimed: false,
+    badges: og ? [earlyBird.badge] : [],
+  } }));
 }
 export function shuffle() {
   save((s) => (s.player ? { ...s, player: { ...s.player, seed: newSeed() } } : s));
@@ -71,3 +78,17 @@ export function rewardOffer() {
 export function setLang(lang: string) {
   save((s) => ({ ...s, lang }));
 }
+/** Giveaway participant reward: badge + points, once per giveaway. */
+export function giveawayEntered(id: string, badge: string, pts: number) {
+  save((s) => {
+    if (!s.player) return s;
+    const b = s.player.badges ?? [];
+    const key = `giveaway:${id}`;
+    if (b.includes(key)) return s;
+    return { ...s, player: { ...s.player, badges: [...b, key, badge], balance: s.player.balance + pts } };
+  });
+}
+
+/* ---------- open the join panel from anywhere ---------- */
+export const JOIN_EVENT = "shotclock:join";
+export const requestJoin = () => window.dispatchEvent(new Event(JOIN_EVENT));

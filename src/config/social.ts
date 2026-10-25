@@ -1,37 +1,22 @@
 /**
- * SHOTCLOCK social + promo config (ported from DOU STARTER KIT).
- *
- * TODO(handles): the placeholder handle is "@shotclock", but NO account has been confirmed.
- * Nothing is linked until you set `handleConfirmed: true` and/or fill a platform handle below.
- * Never add a handle for an account that doesn't exist.
+ * SHOTCLOCK social config. The handle lives in ONE value (HANDLE) and feeds all 18 footer links.
+ * Confirmed by the owner: @shotclockfun (for now). Set an override to "" to hide a platform
+ * whose account isn't live yet, or to a different handle if one platform differs.
  */
 import type { Platform } from "@/lib/socials";
+import { FOOTER_18 } from "@/kit/types";
+
+export const HANDLE = "shotclockfun";
 
 export const social = {
   brandShort: "SHOTCLOCK",
-  handle: "shotclock", // TODO: placeholder only
-  handleConfirmed: false, // TODO: flip to true once @shotclock (or your real handle) is claimed
+  handle: HANDLE,
+  handleConfirmed: true,
   buildingInPublic: "Building in public. v0.01: real names on the clock, simulated money.",
-  // TODO: fill in real handles as accounts are claimed. Empty = not rendered.
-  socials: [
-    { platform: "x", handle: "" },
-    { platform: "tiktok", handle: "" },
-    { platform: "instagram", handle: "" },
-    { platform: "youtube", handle: "" },
-    { platform: "discord", handle: "" },
-    { platform: "kick", handle: "" },
-    { platform: "twitch", handle: "" },
-    { platform: "telegram", handle: "" },
-    { platform: "threads", handle: "" },
-    { platform: "linkedin", handle: "" },
-    { platform: "reddit", handle: "" },
-    { platform: "substack", handle: "" },
-  ] as { platform: Platform; handle: string }[],
-  legal: [
-    { label: "How it works", href: "/" },
-    { label: "Shot Clock", href: "/shotclock" },
-    { label: "DOU DIGITAL", href: "/dou" },
-  ],
+  /** All 18 platforms in footer order, each built from HANDLE (WhatsApp = generic wa.me, no number). */
+  socials: FOOTER_18.map((platform) => ({ platform, handle: HANDLE })) as { platform: Platform; handle: string }[],
+  /** Per-platform exceptions, e.g. { kick: "" } to hide one. */
+  overrides: {} as Partial<Record<Platform, string>>,
 };
 
 /** Clock Points: free, no cash value. Daily caps keep it sane. */

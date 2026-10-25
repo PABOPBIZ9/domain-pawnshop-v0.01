@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { points } from "@/config/social";
 import { funName, newSeed } from "@/lib/identity";
-import { claimVisit, dayKeyOf, join, shuffle, usePlayer } from "@/lib/player";
+import { claimVisit, dayKeyOf, join, JOIN_EVENT, shuffle, usePlayer } from "@/lib/player";
+import { earlyBird } from "@/config/site";
 import { useNow } from "@/lib/now";
 import { Avatar } from "./Avatar";
 
@@ -27,13 +28,20 @@ export function PlayerChip() {
   const now = useNow();
   const visitDone = !!player && player.visitClaimed && !!now && player.dayKey === dayKeyOf(now);
   const start = () => { const seed = newSeed(); setDraft({ seed, name: funName(seed) }); setOpen(true); };
+  useEffect(() => {
+    const onJoin = () => { const seed = newSeed(); setDraft({ seed, name: funName(seed) }); setOpen(true); };
+    window.addEventListener(JOIN_EVENT, onJoin);
+    return () => window.removeEventListener(JOIN_EVENT, onJoin);
+  }, []);
+  const ogOpen = earlyBird.enabled && !!now && now <= Date.parse(earlyBird.endsAt);
+  const shown = (player?.badges ?? []).filter((b) => !b.startsWith("giveaway:"));
   return (
     <>
       {player ? (
         <button onClick={() => setOpen(true)} className="flex items-center gap-2 rounded-lg px-1.5 py-1 hover:bg-panel2" title={points.disclaimer}>
           <Avatar seed={player.seed} size={28} />
           <span className="hidden lg:inline text-xs font-bold">#{player.number}</span>
-          <span className="text-xs font-mono tabular-nums">{player.balance.toLocaleString("en-US")} {points.short}</span>
+          <span className="text-xs font-mono tabular-nums whitespace-nowrap">{player.balance.toLocaleString("en-US")} {points.short}</span>
         </button>
       ) : (
         <button onClick={start} className="btn btn-ghost text-sm whitespace-nowrap">Join free</button>
@@ -54,6 +62,7 @@ export function PlayerChip() {
                     <button className="btn btn-ghost text-sm mt-1" onClick={shuffle}>🎲 Shuffle avatar</button>
                   </div>
                 </div>
+                {shown.length ? <div className="mt-3 flex flex-wrap gap-1.5">{shown.map((b) => <span key={b} className="pill bg-gold/20 text-gold">🏅 {b}</span>)}</div> : null}
                 <div className="mt-4 space-y-2">
                   <Row reward={`+${points.dailyVisit}`} action="Daily check-in" verify="Once a day." done={visitDone}
                     button={!visitDone ? <button className="btn btn-acid text-xs" onClick={claimVisit}>Claim</button> : undefined} />
@@ -70,7 +79,8 @@ export function PlayerChip() {
                   </div>
                 </div>
                 <label className="mt-4 flex gap-2 text-sm items-start"><input type="checkbox" className="mt-1" checked={age} onChange={(e) => setAge(e.target.checked)} />I&apos;m 18+ (or the age of majority where I live).</label>
-                <button className="btn btn-acid w-full mt-4" disabled={!age} onClick={() => join(draft.name.trim() || "Player", draft.seed)}>Join (+{points.join} {points.short})</button>
+                {ogOpen ? <p className="mt-3 text-sm text-gold">🐣 Early-bird: join now for the {earlyBird.badge} badge and +{earlyBird.bonusPoints} bonus {points.short}.</p> : null}
+                <button className="btn btn-acid w-full mt-4" disabled={!age} onClick={() => join(draft.name.trim() || "Player", draft.seed)}>Join (+{points.join + (ogOpen ? earlyBird.bonusPoints : 0)} {points.short})</button>
               </>
             ) : null}
             <p className="mt-4 text-xs text-mute">{points.disclaimer}</p>

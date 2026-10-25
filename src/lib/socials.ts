@@ -23,10 +23,10 @@ export function profileUrl(platform: Platform, raw: string): string | null {
     case "pinterest": return `https://www.pinterest.com/${e}`;
     case "reddit": return `https://www.reddit.com/r/${e}`;
     case "spotify": return `https://open.spotify.com/user/${e}`;
-    case "substack": return `https://${e}.substack.com`;
+    case "substack": return `https://substack.com/@${e}`;
     case "medium": return `https://medium.com/@${e}`;
     case "rumble": return `https://rumble.com/c/${e}`;
-    case "whatsapp": return `https://whatsapp.com/channel/${e}`;
+    case "whatsapp": return "https://wa.me/"; // generic share link; no number is ever embedded
     case "bluesky": return `https://bsky.app/profile/${e}`;
     case "roblox": return `https://www.roblox.com/groups/${e}`;
   }

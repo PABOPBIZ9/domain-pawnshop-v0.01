@@ -95,3 +95,11 @@ Prototype for demonstration. Nothing here is an appraisal, financial advice, or 
 - **Social footer:** "Follow SHOTCLOCK", 11-language switcher, Back to top, and SVG icons. Configure them in `src/config/social.ts`. TODO: the `@shotclock` handle is a placeholder; no links render until real handles are filled in and `handleConfirmed` is set to true.
 - **Promo bar:** always shows the next real deadline on the board, with a relative countdown.
 - **Join + CLOCK POINTS:** #number, fun name, avatar shuffle, daily check-in, and points for simulated offers, bids and buys (capped at 10 a day). The points have no cash value and are stored in localStorage (`shotclock:player`).
+
+## Launch templates (from DOU STARTER KIT `src/kit/`)
+- **Footer:** 18 socials, all built from ONE handle (`HANDLE` in `src/config/social.ts`, now `shotclockfun`), with the label "Follow SHOTCLOCK · @shotclockfun". Also a newsletter (stored locally with consent), link columns, language switcher, Privacy/Terms and Back to top. Hide a platform with `overrides: { kick: "" }`.
+- **SHOTCLOCK LIVE ticker:** the next real board clocks, plus early-bird and giveaway deadlines. ET labels only.
+- **Early-bird:** free OG Early-Bird badge + 250 CP for players who join before Nov 1, 2026, 11:59 PM ET (`src/config/site.ts`).
+- **/giveaway:** launch giveaway; page and official rules are generated from `src/config/giveaway.ts`. **All prizes are placeholders**, and the DEMO warning stays until the rules are legally reviewed.
+- **$36 OG Offer card:** a draft. Payments are hard-off.
+- **Domains:** `site.domains.current = shotclock.store`, `plannedPrimary = shotclock.buzz` (tagline "Find out what all the buzz is about"). It is not canonical yet, pending registration.

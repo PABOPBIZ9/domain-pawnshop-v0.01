@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PlayerChip } from "./Player";
-import { PromoBar } from "./PromoBar";
+import { Ticker } from "./Ticker";
+import { EarlyBirdBar } from "./EarlyBird";
 
 const LINKS = [
   { href: "/shotclock", label: "⏱ Shot Clock" },
@@ -11,6 +12,7 @@ const LINKS = [
   { href: "/upload", label: "Upload & Value" },
   { href: "/bundles", label: "Bundles" },
   { href: "/dashboard", label: "Dashboard" },
+  { href: "/giveaway", label: "🎁 Giveaway" },
   { href: "/dou", label: "DOU DIGITAL" },
 ];
 
@@ -18,7 +20,8 @@ export function Nav() {
   const path = usePathname();
   return (
     <>
-    <PromoBar />
+    <Ticker />
+    <EarlyBirdBar />
     <header className="sticky top-0 z-30 border-b border-line bg-ink/80 backdrop-blur">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-6">
         <Link href="/" className="flex items-center gap-2 font-black tracking-tight text-lg">
@@ -41,7 +44,7 @@ export function Nav() {
         </nav>
         <div className="ml-auto flex items-center gap-2">
           <PlayerChip />
-          <Link href="/shotclock" className="btn btn-acid text-sm hidden md:inline-block">
+          <Link href="/shotclock" className="btn btn-acid text-sm hidden xl:inline-block whitespace-nowrap">
             Beat the clock
           </Link>
         </div>

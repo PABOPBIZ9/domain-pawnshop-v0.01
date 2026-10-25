@@ -9,6 +9,11 @@
   --color-acid: #c6ff3d;
   --color-violet: #8b5cf6;
   --color-hot: #ff4d8d;
+  /* aliases used by the shared src/kit templates */
+  --color-bg: #07070b;
+  --color-primary: #8b5cf6;
+  --color-accent: #c6ff3d;
+  --color-gold: #ffd23f;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -76,4 +81,21 @@ body {
 .btn-violet {
   background: var(--color-violet);
   color: white;
+}
+
+/* ---------- shared kit classes (src/kit) ---------- */
+@layer components {
+  .btn-primary { background: var(--color-primary); color: white; }
+  .btn-primary:hover:not(:disabled) { filter: brightness(1.1); }
+  .btn-accent { background: var(--color-accent); color: #0a0a0a; }
+  .pill { border-radius: 999px; padding: .1rem .55rem; font-size: .75rem; font-weight: 800; display: inline-block; }
+}
+
+/* kit: live ticker marquee */
+.kit-marquee { animation: kit-marquee 70s linear infinite; }
+.kit-ticker:hover .kit-marquee, .kit-ticker:focus-within .kit-marquee { animation-play-state: paused; }
+@keyframes kit-marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .kit-marquee { animation: none; }
+  .kit-ticker > div { overflow-x: auto; }
 }

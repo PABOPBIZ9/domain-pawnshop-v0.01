@@ -47,3 +47,4 @@ function subscribeTick(l: () => void) {
 export function useTick(): number {
   return useSyncExternalStore(subscribeTick, () => tick || CLIENT_NOW, () => 0);
 }
+export const nowMs = () => Date.now();

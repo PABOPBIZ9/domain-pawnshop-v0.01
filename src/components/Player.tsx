@@ -80,7 +80,7 @@ export function PlayerChip() {
                 </div>
                 <label className="mt-4 flex gap-2 text-sm items-start"><input type="checkbox" className="mt-1" checked={age} onChange={(e) => setAge(e.target.checked)} />I&apos;m 18+ (or the age of majority where I live).</label>
                 {ogOpen ? <p className="mt-3 text-sm text-gold">🐣 Early-bird: join now for the {earlyBird.badge} badge and +{earlyBird.bonusPoints} bonus {points.short}.</p> : null}
-                <button className="btn btn-acid w-full mt-4" disabled={!age} onClick={() => join(draft.name.trim() || "Player", draft.seed)}>Join (+{points.join + (ogOpen ? earlyBird.bonusPoints : 0)} {points.short})</button>
+                <button className="btn btn-acid w-full mt-4" disabled={!age} onClick={() => { join(draft.name.trim() || "Player", draft.seed); setOpen(false); }}>Join (+{points.join + (ogOpen ? earlyBird.bonusPoints : 0)} {points.short})</button>
               </>
             ) : null}
             <p className="mt-4 text-xs text-mute">{points.disclaimer}</p>

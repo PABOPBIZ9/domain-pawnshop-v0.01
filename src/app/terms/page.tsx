@@ -1,3 +1,4 @@
+import { LegalNote } from "@/components/LegalNote";
 import type { Metadata } from "next";
 import { points } from "@/config/social";
 
@@ -5,7 +6,8 @@ export const metadata: Metadata = { title: "Terms · SHOTCLOCK", alternates: { c
 
 export default function Page() {
   return (
-    <article className="max-w-3xl space-y-4 text-sm leading-relaxed">
+    <article data-no-t lang="en" className="max-w-3xl space-y-4 text-sm leading-relaxed">
+      <LegalNote />
       <h1 className="text-3xl font-black">Terms of Use (v0.01 template)</h1>
       <p className="text-hot font-bold">Template: have this reviewed before launch.</p>
       <p>SHOTCLOCK v0.01 is a prototype. Prices are indicative heuristics, not appraisals. Offers, bids and sales are simulated; no real payments, escrow or domain transfers happen here. Anything marked DEMO DATA is simulated.</p>

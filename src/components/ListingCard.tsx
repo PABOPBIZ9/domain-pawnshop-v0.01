@@ -22,7 +22,7 @@ export function ListingCard({ l, offers, now, onOpen }: { l: Listing; offers: Of
   const { amount: best, demo: bestDemo } = bestOfferInfo(offers, l.id);
   return (
     <button onClick={onOpen} data-listing={l.id} className="card p-2.5 text-left hover:border-violet hover:-translate-y-0.5 transition group">
-      <div className="relative">
+      <div className="relative lx-dark">
         <DomainArt title={l.title} kind={l.kind} count={l.domains.length} />
         <div className="absolute top-2 left-2 flex gap-1">
           {l.demo && <DemoBadge />}

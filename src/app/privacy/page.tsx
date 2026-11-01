@@ -1,10 +1,12 @@
+import { LegalNote } from "@/components/LegalNote";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Privacy · SHOTCLOCK", alternates: { canonical: "/privacy" } };
 
 export default function Page() {
   return (
-    <article className="max-w-3xl space-y-4 text-sm leading-relaxed">
+    <article data-no-t lang="en" className="max-w-3xl space-y-4 text-sm leading-relaxed">
+      <LegalNote />
       <h1 className="text-3xl font-black">Privacy (v0.01 template)</h1>
       <p className="text-hot font-bold">Template: have this reviewed before collecting real personal data.</p>
       <p>SHOTCLOCK v0.01 has no accounts backend. Your player profile, portfolio uploads, listings, offers, giveaway entries and newsletter opt-in are stored only in this browser (localStorage). Nothing is sent to our servers.</p>

@@ -129,3 +129,7 @@ html[data-theme="light"] .text-accent, html[data-theme="light"] .text-primary, h
 /* RTL: keep the marquee LTR and never let it widen the page */
 .kit-ticker { direction: ltr; }
 html, body { overflow-x: clip; }
+/* Dark art surfaces (domain art tiles) keep dark-mode ink in light mode */
+html[data-theme="light"] .lx-dark { --lx-text: #f1f4ff; --lx-mute: #b3bde6; color: #f1f4ff; }
+html[data-theme="light"] .lx-dark .text-acid, html[data-theme="light"] .lx-dark .text-accent, html[data-theme="light"] .lx-dark .text-primary { color: var(--lx-sig) !important; }
+html[data-theme="light"] .lx-dark .text-white { color: #fff; }

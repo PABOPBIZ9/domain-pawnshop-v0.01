@@ -41,7 +41,7 @@ export function DomainArt({ title, kind, count }: { title: string; kind: "domain
   const tld = kind === "domain" && dot > 0 ? title.slice(dot) : "";
   return (
     <div
-      className="aspect-[4/3] rounded-xl relative overflow-hidden grid place-items-center p-3"
+      className="lx-dark aspect-[4/3] rounded-xl relative overflow-hidden grid place-items-center p-3"
       style={{ background: `linear-gradient(135deg, hsl(${hue} 70% 18%), hsl(${hue2} 80% 10%))` }}
     >
       <div

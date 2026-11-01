@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@dynamic-labs/ethereum": "^5.14.0",
+    "@dynamic-labs/sdk-react-core": "^5.14.0",
+    "@dynamic-labs/solana": "^5.14.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "next": "16.4.3",

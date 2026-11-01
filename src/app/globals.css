@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @import "../kit/luxe.css";
+@import "../kit/auth/auth.css";
 
 /*
  * SHOTCLOCK theme: signature Volt Lime #C6FF3D on the sapphire-night luxe base (no pure black).

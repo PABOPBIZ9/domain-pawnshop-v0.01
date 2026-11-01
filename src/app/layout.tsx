@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
+import { AuthProvider } from "@/kit/auth/auth";
 import { Footer } from "@/components/Footer";
 import { BRAND_COLORS, SITE_URL, site } from "@/config/site";
 import { theme } from "@/config/theme";
@@ -54,10 +55,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color={BRAND_COLORS.signature} />
       </head>
       <body id="top" className="min-h-full flex flex-col">
+        <AuthProvider appName="SHOTCLOCK">
         <div className="lx-stars" aria-hidden />
         <Nav />
         <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">{children}</main>
         <Footer />
+        </AuthProvider>
         <Analytics />
         <SpeedInsights />
       </body>

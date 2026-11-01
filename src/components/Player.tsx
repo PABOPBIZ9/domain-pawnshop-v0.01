@@ -44,7 +44,7 @@ export function PlayerChip() {
           <span className="text-xs font-mono tabular-nums whitespace-nowrap">{player.balance.toLocaleString("en-US")} {points.short}</span>
         </button>
       ) : (
-        <button onClick={start} className="btn btn-ghost text-sm whitespace-nowrap">Join free</button>
+        <button onClick={start} className="btn btn-ghost min-h-11 text-sm whitespace-nowrap">Join free</button>
       )}
       {open ? createPortal(
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4" onClick={() => setOpen(false)}>

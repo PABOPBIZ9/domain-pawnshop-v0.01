@@ -34,12 +34,13 @@ const en = {
   tl_t: "Trench lots", tl_d: "Bundles of the long tail for resellers who buy in bulk.",
   follow: "Follow", backTop: "Back to top", theme: "Theme", system: "System", light: "Light", dark: "Dark", language: "Language",
   rulesEnglish: "Official rules are in English. Translations are for convenience only.",
+  myPoints: "My points & profile",
   nf_t: "This name already dropped.", nf_s: "The page you're looking for isn't on the floor.", nf_home: "Back to the floor",
 };
 export type Key = keyof typeof en;
 type D = Partial<Record<Key, string>>;
 
-const es: D = { nav_shot: "⏱ Reloj", nav_market: "Mercado", nav_upload: "Subir y valorar", nav_bundles: "Lotes", nav_dash: "Panel", nav_give: "🎁 Sorteo",
+const es: D = { myPoints: "Mis puntos y perfil", nav_shot: "⏱ Reloj", nav_market: "Mercado", nav_upload: "Subir y valorar", nav_bundles: "Lotes", nav_dash: "Panel", nav_give: "🎁 Sorteo",
   beat: "Gánale al reloj", openMenu: "Abrir menú", closeMenu: "Cerrar menú",
   banner: "los precios son estimaciones heurísticas, no tasaciones. Ofertas, pujas y compras son simuladas y no se mueve dinero.",
   eb_have: "Ya tienes la insignia {b}.", eb_join: "Únete gratis y obtén la insignia {b} + {n} {p} extra.", eb_ends: "termina en", eb_claim: "Reservar mi lugar →",
@@ -61,7 +62,7 @@ const es: D = { nav_shot: "⏱ Reloj", nav_market: "Mercado", nav_upload: "Subir
   rulesEnglish: "Las reglas oficiales están en inglés. Las traducciones son solo de referencia.",
   nf_t: "Este nombre ya cayó.", nf_s: "La página que buscas no está en el piso.", nf_home: "Volver al piso" };
 
-const pt: D = { nav_shot: "⏱ Relógio", nav_market: "Mercado", nav_upload: "Enviar e avaliar", nav_bundles: "Lotes", nav_dash: "Painel", nav_give: "🎁 Sorteio",
+const pt: D = { myPoints: "Meus pontos e perfil", nav_shot: "⏱ Relógio", nav_market: "Mercado", nav_upload: "Enviar e avaliar", nav_bundles: "Lotes", nav_dash: "Painel", nav_give: "🎁 Sorteio",
   beat: "Vença o relógio", openMenu: "Abrir menu", closeMenu: "Fechar menu",
   banner: "os preços são estimativas heurísticas, não avaliações. Ofertas, lances e compras são simulados e nenhum dinheiro é movimentado.",
   eb_have: "Você já tem o selo {b}.", eb_join: "Entre grátis e ganhe o selo {b} + {n} {p} de bônus.", eb_ends: "termina em", eb_claim: "Garantir minha vaga →",
@@ -83,7 +84,7 @@ const pt: D = { nav_shot: "⏱ Relógio", nav_market: "Mercado", nav_upload: "En
   rulesEnglish: "As regras oficiais estão em inglês. As traduções são apenas para conveniência.",
   nf_t: "Este nome já caiu.", nf_s: "A página que você procura não está no pregão.", nf_home: "Voltar ao pregão" };
 
-const fr: D = { nav_shot: "⏱ Chrono", nav_market: "Marché", nav_upload: "Importer et estimer", nav_bundles: "Lots", nav_dash: "Tableau de bord", nav_give: "🎁 Concours",
+const fr: D = { myPoints: "Mes points et profil", nav_shot: "⏱ Chrono", nav_market: "Marché", nav_upload: "Importer et estimer", nav_bundles: "Lots", nav_dash: "Tableau de bord", nav_give: "🎁 Concours",
   beat: "Battez le chrono", openMenu: "Ouvrir le menu", closeMenu: "Fermer le menu",
   banner: "les prix sont des estimations heuristiques, pas des expertises. Offres, enchères et achats sont simulés ; aucun argent ne circule.",
   eb_have: "Vous avez le badge {b}.", eb_join: "Inscrivez-vous gratuitement pour le badge {b} + {n} {p} bonus.", eb_ends: "fin dans", eb_claim: "Réserver ma place →",
@@ -105,7 +106,7 @@ const fr: D = { nav_shot: "⏱ Chrono", nav_market: "Marché", nav_upload: "Impo
   rulesEnglish: "Le règlement officiel est en anglais. Les traductions sont fournies à titre indicatif.",
   nf_t: "Ce nom a déjà expiré.", nf_s: "La page recherchée n'est pas en vente.", nf_home: "Retour à la salle" };
 
-const de: D = { nav_shot: "⏱ Countdown", nav_market: "Marktplatz", nav_upload: "Hochladen & bewerten", nav_bundles: "Pakete", nav_dash: "Dashboard", nav_give: "🎁 Gewinnspiel",
+const de: D = { myPoints: "Meine Punkte & Profil", nav_shot: "⏱ Countdown", nav_market: "Marktplatz", nav_upload: "Hochladen & bewerten", nav_bundles: "Pakete", nav_dash: "Dashboard", nav_give: "🎁 Gewinnspiel",
   beat: "Schlag die Uhr", openMenu: "Menü öffnen", closeMenu: "Menü schließen",
   banner: "Preise sind heuristische Richtwerte, keine Gutachten. Angebote, Gebote und Käufe sind simuliert, es fließt kein Geld.",
   eb_have: "Du hast das {b}-Abzeichen.", eb_join: "Kostenlos beitreten: {b}-Abzeichen + {n} Bonus-{p}.", eb_ends: "endet in", eb_claim: "Platz sichern →",
@@ -127,7 +128,7 @@ const de: D = { nav_shot: "⏱ Countdown", nav_market: "Marktplatz", nav_upload:
   rulesEnglish: "Die offiziellen Teilnahmebedingungen sind auf Englisch. Übersetzungen dienen nur der Orientierung.",
   nf_t: "Dieser Name ist schon weg.", nf_s: "Die gesuchte Seite gibt es hier nicht.", nf_home: "Zurück zum Marktplatz" };
 
-const it: D = { nav_shot: "⏱ Cronometro", nav_market: "Mercato", nav_upload: "Carica e valuta", nav_bundles: "Lotti", nav_dash: "Pannello", nav_give: "🎁 Concorso",
+const it: D = { myPoints: "I miei punti e profilo", nav_shot: "⏱ Cronometro", nav_market: "Mercato", nav_upload: "Carica e valuta", nav_bundles: "Lotti", nav_dash: "Pannello", nav_give: "🎁 Concorso",
   beat: "Batti il cronometro", openMenu: "Apri menu", closeMenu: "Chiudi menu",
   banner: "i prezzi sono stime euristiche, non perizie. Offerte, puntate e acquisti sono simulati e non si muove denaro.",
   eb_have: "Hai il badge {b}.", eb_join: "Iscriviti gratis per il badge {b} + {n} {p} bonus.", eb_ends: "termina tra", eb_claim: "Prenota il mio posto →",
@@ -149,7 +150,7 @@ const it: D = { nav_shot: "⏱ Cronometro", nav_market: "Mercato", nav_upload: "
   rulesEnglish: "Il regolamento ufficiale è in inglese. Le traduzioni sono solo indicative.",
   nf_t: "Questo nome è già scaduto.", nf_s: "La pagina che cerchi non è in sala.", nf_home: "Torna alla sala" };
 
-const ja: D = { nav_shot: "⏱ ショットクロック", nav_market: "マーケット", nav_upload: "アップロードと査定", nav_bundles: "まとめ売り", nav_dash: "ダッシュボード", nav_give: "🎁 プレゼント",
+const ja: D = { myPoints: "ポイントとプロフィール", nav_shot: "⏱ ショットクロック", nav_market: "マーケット", nav_upload: "アップロードと査定", nav_bundles: "まとめ売り", nav_dash: "ダッシュボード", nav_give: "🎁 プレゼント",
   beat: "時間に勝て", openMenu: "メニューを開く", closeMenu: "メニューを閉じる",
   banner: "価格は目安の推定値で、鑑定ではありません。オファー、入札、購入はシミュレーションで、実際のお金は動きません。",
   eb_have: "{b}バッジを獲得済みです。", eb_join: "無料登録で{b}バッジ＋ボーナス{n}{p}。", eb_ends: "残り", eb_claim: "枠を確保する →",
@@ -171,7 +172,7 @@ const ja: D = { nav_shot: "⏱ ショットクロック", nav_market: "マーケ
   rulesEnglish: "公式ルールは英語版が正式です。翻訳は参考用です。",
   nf_t: "この名前はすでに失効しました。", nf_s: "お探しのページは見つかりません。", nf_home: "フロアに戻る" };
 
-const ko: D = { nav_shot: "⏱ 샷클락", nav_market: "마켓", nav_upload: "업로드 및 평가", nav_bundles: "묶음", nav_dash: "대시보드", nav_give: "🎁 경품",
+const ko: D = { myPoints: "내 포인트 & 프로필", nav_shot: "⏱ 샷클락", nav_market: "마켓", nav_upload: "업로드 및 평가", nav_bundles: "묶음", nav_dash: "대시보드", nav_give: "🎁 경품",
   beat: "시간을 이겨라", openMenu: "메뉴 열기", closeMenu: "메뉴 닫기",
   banner: "가격은 참고용 추정치이며 감정가가 아닙니다. 제안, 입찰, 구매는 시뮬레이션이며 실제 돈은 오가지 않습니다.",
   eb_have: "{b} 배지를 보유 중입니다.", eb_join: "무료 가입하고 {b} 배지 + 보너스 {n} {p} 받기.", eb_ends: "종료까지", eb_claim: "자리 잡기 →",
@@ -193,7 +194,7 @@ const ko: D = { nav_shot: "⏱ 샷클락", nav_market: "마켓", nav_upload: "�
   rulesEnglish: "공식 규정은 영어본이 기준입니다. 번역은 참고용입니다.",
   nf_t: "이 도메인은 이미 만료됐어요.", nf_s: "찾는 페이지가 없습니다.", nf_home: "마켓으로 돌아가기" };
 
-const zh: D = { nav_shot: "⏱ 倒计时", nav_market: "市场", nav_upload: "上传与估值", nav_bundles: "打包", nav_dash: "控制台", nav_give: "🎁 抽奖",
+const zh: D = { myPoints: "我的积分和资料", nav_shot: "⏱ 倒计时", nav_market: "市场", nav_upload: "上传与估值", nav_bundles: "打包", nav_dash: "控制台", nav_give: "🎁 抽奖",
   beat: "挑战倒计时", openMenu: "打开菜单", closeMenu: "关闭菜单",
   banner: "价格为启发式估算，并非评估。报价、出价和购买均为模拟，不涉及真实资金。",
   eb_have: "你已获得 {b} 徽章。", eb_join: "免费加入，获得 {b} 徽章 + {n} 额外{p}。", eb_ends: "剩余", eb_claim: "抢占名额 →",
@@ -215,7 +216,7 @@ const zh: D = { nav_shot: "⏱ 倒计时", nav_market: "市场", nav_upload: "�
   rulesEnglish: "正式规则以英文为准，译文仅供参考。",
   nf_t: "这个域名已经掉落。", nf_s: "你要找的页面不存在。", nf_home: "返回市场" };
 
-const hi: D = { nav_shot: "⏱ शॉट क्लॉक", nav_market: "मार्केटप्लेस", nav_upload: "अपलोड और वैल्यू", nav_bundles: "बंडल", nav_dash: "डैशबोर्ड", nav_give: "🎁 गिवअवे",
+const hi: D = { myPoints: "मेरे पॉइंट्स और प्रोफ़ाइल", nav_shot: "⏱ शॉट क्लॉक", nav_market: "मार्केटप्लेस", nav_upload: "अपलोड और वैल्यू", nav_bundles: "बंडल", nav_dash: "डैशबोर्ड", nav_give: "🎁 गिवअवे",
   beat: "घड़ी को हराओ", openMenu: "मेनू खोलें", closeMenu: "मेनू बंद करें",
   banner: "कीमतें अनुमानित हैं, मूल्यांकन नहीं। ऑफ़र, बोलियाँ और खरीदारी सिम्युलेटेड हैं, कोई पैसा नहीं जाता।",
   eb_have: "आपके पास {b} बैज है।", eb_join: "मुफ़्त जुड़ें और पाएँ {b} बैज + {n} बोनस {p}।", eb_ends: "खत्म होने में", eb_claim: "मेरी जगह पक्की करें →",
@@ -237,7 +238,7 @@ const hi: D = { nav_shot: "⏱ शॉट क्लॉक", nav_market: "मा�
   rulesEnglish: "आधिकारिक नियम अंग्रेज़ी में हैं। अनुवाद केवल सुविधा के लिए है।",
   nf_t: "यह नाम पहले ही गिर चुका है।", nf_s: "आप जो पेज ढूँढ रहे हैं वह यहाँ नहीं है।", nf_home: "फ़्लोर पर लौटें" };
 
-const ar: D = { nav_shot: "⏱ ساعة التصويب", nav_market: "السوق", nav_upload: "رفع وتقييم", nav_bundles: "الحزم", nav_dash: "لوحة التحكم", nav_give: "🎁 السحب",
+const ar: D = { myPoints: "نقاطي وملفي", nav_shot: "⏱ ساعة التصويب", nav_market: "السوق", nav_upload: "رفع وتقييم", nav_bundles: "الحزم", nav_dash: "لوحة التحكم", nav_give: "🎁 السحب",
   beat: "اسبق الوقت", openMenu: "فتح القائمة", closeMenu: "إغلاق القائمة",
   banner: "الأسعار تقديرات استرشادية وليست تقييمات رسمية. العروض والمزايدات والمشتريات محاكاة ولا تنتقل أي أموال.",
   eb_have: "لديك شارة {b}.", eb_join: "انضم مجانًا واحصل على شارة {b} + {n} {p} إضافية.", eb_ends: "ينتهي خلال", eb_claim: "احجز مكاني ←",

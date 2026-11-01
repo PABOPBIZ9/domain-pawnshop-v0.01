@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { BRAND_COLORS, SITE_URL, site } from "@/config/site";
 import { theme } from "@/config/theme";
 import { themeVars } from "@/kit/theme";
+import { THEME_SCRIPT } from "@/kit/ThemeToggle";
 import type { CSSProperties } from "react";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -38,14 +39,18 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: BRAND_COLORS.base,
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4efe6" },
+    { media: "(prefers-color-scheme: dark)", color: BRAND_COLORS.base },
+  ],
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" style={themeVars(theme) as CSSProperties} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="en" suppressHydrationWarning style={themeVars(theme) as CSSProperties} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color={BRAND_COLORS.signature} />
       </head>
       <body id="top" className="min-h-full flex flex-col">

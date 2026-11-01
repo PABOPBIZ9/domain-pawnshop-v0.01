@@ -2,21 +2,17 @@
 
 import SiteFooter from "@/kit/SiteFooter";
 import { footer } from "@/config/site";
-import { setLang, usePlayer } from "@/lib/player";
+import { setLang } from "@/lib/player";
+import { LANGS, useLangSync, useT } from "@/lib/i18n";
 
-const LANGS = [
-  ["en", "🇺🇸 English", "Follow", "Back to top"], ["ja", "🇯🇵 日本語", "フォロー", "トップへ戻る"], ["ko", "🇰🇷 한국어", "팔로우", "맨 위로"],
-  ["zh", "🇨🇳 中文", "关注", "返回顶部"], ["ru", "🇷🇺 Русский", "Подписаться", "Наверх"], ["es", "🇪🇸 Español", "Sigue a", "Volver arriba"],
-  ["nl", "🇳🇱 Nederlands", "Volg", "Terug naar boven"], ["it", "🇮🇹 Italiano", "Segui", "Torna su"], ["fr", "🇫🇷 Français", "Suivre", "Haut de page"],
-  ["de", "🇩🇪 Deutsch", "Folge", "Nach oben"], ["pt", "🇧🇷 Português", "Siga", "Voltar ao topo"],
-] as const;
+export const chooseLang = (l: string) => { try { localStorage.setItem("sc.lang.chosen", "1"); } catch {} setLang(l); };
 
 /** 18-social footer (PuckGold pattern): "Follow SHOTCLOCK · @shotclockfun". */
 export function Footer() {
-  const { lang } = usePlayer();
-  const L = LANGS.find((l) => l[0] === lang) ?? LANGS[0];
+  const { t, lang } = useT();
+  useLangSync(setLang);
   return (
-    <SiteFooter cfg={footer} langs={LANGS.map((l) => ({ code: l[0], label: l[1] }))} lang={L[0]} onLang={setLang}
-      labels={{ follow: L[2], backToTop: L[3] }} />
+    <SiteFooter cfg={footer} langs={LANGS.map((l) => ({ code: l[0], label: `🌐 ${l[1]}` }))} lang={lang} onLang={chooseLang}
+      labels={{ follow: t("follow"), backToTop: t("backTop"), changeLanguage: t("language") }} />
   );
 }

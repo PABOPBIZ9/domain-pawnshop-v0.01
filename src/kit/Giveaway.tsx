@@ -41,7 +41,9 @@ function Art({ p, big }: { p: Prize; big?: boolean }) {
   );
 }
 
-export default function Giveaway({ cfg, member, onJoin, onEnter, verified = {}, shareUrl, demoBoard }: {
+export default function Giveaway({ cfg, member, onJoin, onEnter, verified = {}, shareUrl, demoBoard, rulesNote }: {
+  /** Shown above the Official Rules in non-English UIs, e.g. "Official rules are in English." */
+  rulesNote?: string;
   cfg: GiveawayConfig;
   member: { name: string; handle: string } | null;
   onJoin: () => void;
@@ -278,8 +280,9 @@ export default function Giveaway({ cfg, member, onJoin, onEnter, verified = {}, 
       </section>
 
       {/* RULES */}
-      <section id="gw-rules" className="card p-6 text-sm leading-relaxed">
-        <h2 className="text-2xl font-black">Official Rules · {cfg.name}</h2>
+      <section id="gw-rules" dir="ltr" className="card p-6 text-sm leading-relaxed">
+        {rulesNote ? <p className="mb-3 rounded-lg lx-champagne px-3 py-2 font-bold">🌐 {rulesNote}</p> : null}
+        <h2 lang="en" className="text-2xl font-black">Official Rules · {cfg.name}</h2>
         {!cfg.rulesReviewed ? <p className="mt-2 rounded-lg bg-hot/10 p-2 font-bold text-hot">Template generated from config. Not legally reviewed.</p> : null}
         <div className="mt-4 space-y-3 opacity-90">
           <p><b>1. NO PURCHASE NECESSARY TO ENTER OR WIN.</b> A purchase or payment of any kind will not increase your chances of winning. Void where prohibited.</p>

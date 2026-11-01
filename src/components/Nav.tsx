@@ -6,20 +6,25 @@ import { useState } from "react";
 import { PlayerChip } from "./Player";
 import { Ticker } from "./Ticker";
 import { EarlyBirdBar } from "./EarlyBird";
+import { ThemeToggle } from "@/kit/ThemeToggle";
+import { LANGS, useT, type Key } from "@/lib/i18n";
+import { chooseLang } from "./Footer";
 
-const LINKS = [
-  { href: "/shotclock", label: "⏱ Shot Clock" },
-  { href: "/market", label: "Marketplace" },
-  { href: "/upload", label: "Upload & Value" },
-  { href: "/bundles", label: "Bundles" },
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/giveaway", label: "🎁 Giveaway" },
-  { href: "/dou", label: "DOU DIGITAL" },
+const LINKS: { href: string; k: Key | null; label?: string }[] = [
+  { href: "/shotclock", k: "nav_shot" },
+  { href: "/market", k: "nav_market" },
+  { href: "/upload", k: "nav_upload" },
+  { href: "/bundles", k: "nav_bundles" },
+  { href: "/dashboard", k: "nav_dash" },
+  { href: "/giveaway", k: "nav_give" },
+  { href: "/dou", k: null, label: "DOU DIGITAL" },
 ];
 
 export function Nav() {
   const path = usePathname();
   const [open, setOpen] = useState(false);
+  const { t, lang } = useT();
+  const lbl = (l: (typeof LINKS)[number]) => (l.k ? t(l.k) : l.label);
   return (
     <>
     <Ticker />
@@ -40,16 +45,23 @@ export function Nav() {
               href={l.href}
               className={`px-3 py-1.5 rounded-lg whitespace-nowrap ${path.startsWith(l.href) ? "bg-panel2 text-white" : "text-mute hover:text-white"}`}
             >
-              {l.label}
+              {lbl(l)}
             </Link>
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle className="hidden sm:inline-flex border border-line bg-panel2" labels={{ theme: t("theme"), system: t("system"), light: t("light"), dark: t("dark") }} />
+          <label className="theme-toggle border border-line bg-panel2" title={t("language")}>
+            <span aria-hidden>🌐</span>
+            <select aria-label={t("language")} value={lang} onChange={(e) => chooseLang(e.target.value)} className="max-w-[6.5rem]">
+              {LANGS.map(([c, n]) => <option key={c} value={c}>{n}</option>)}
+            </select>
+          </label>
           <PlayerChip />
           <button
             type="button"
             className="lg:hidden grid place-items-center w-10 h-10 rounded-lg border border-line bg-panel2 text-white"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? t("closeMenu") : t("openMenu")}
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
@@ -58,8 +70,8 @@ export function Nav() {
               {open ? <path d="M5 5l10 10M15 5L5 15" /> : <path d="M3 5h14M3 10h14M3 15h14" />}
             </svg>
           </button>
-          <Link href="/shotclock" className="btn btn-acid text-sm hidden xl:inline-block whitespace-nowrap">
-            Beat the clock
+          <Link href="/shotclock" className="btn btn-acid text-sm hidden 2xl:inline-block whitespace-nowrap">
+            {t("beat")}
           </Link>
         </div>
       </div>
@@ -73,15 +85,18 @@ export function Nav() {
                   onClick={() => setOpen(false)}
                   className={`block px-3 py-2.5 rounded-lg border border-line ${path.startsWith(l.href) ? "bg-panel2 text-white" : "text-white/85 hover:text-white"}`}
                 >
-                  {l.label}
+                  {lbl(l)}
                 </Link>
               </li>
             ))}
           </ul>
+          <div className="max-w-7xl mx-auto px-4 pb-3 sm:hidden">
+            <ThemeToggle className="border border-line bg-panel2" labels={{ theme: t("theme"), system: t("system"), light: t("light"), dark: t("dark") }} />
+          </div>
         </nav>
       )}
       <div className="border-t border-line bg-hot/10 text-[11px] text-center px-4 py-1.5 text-white/80">
-        <b className="text-hot">v0.01:</b> prices are indicative heuristics, not appraisals. Offers, bids and purchases are simulated, and no money moves.
+        <b className="text-hot">v0.01:</b> {t("banner")}
       </div>
     </header>
     </>
